@@ -33,6 +33,6 @@ Vagrant.configure(2) do |config|
 
   config.vm.provision "shell", path: "vagrant-scripts/install-postgres.sh" 
   config.vm.provision "shell", inline: $user_script, privileged: false
-  config.vm.network "forwarded_port", guest: 80, host: 80 
+  config.vm.network "forwarded_port", guest: 80, host: 1337
   config.vm.provision "shell", inline: $root_script
 end

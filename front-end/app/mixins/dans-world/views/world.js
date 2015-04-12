@@ -15,6 +15,11 @@ export default Ember.View.extend({
   tagName: 'canvas',
  
   /**
+   * WebGL rendering context is created
+   * after view has been added to
+   * the DOM. Remains null if
+   * WebGL is not supported. 
+   *
    * @property gl
    * @type WebGLRenderingContext
    * @default null
@@ -38,12 +43,11 @@ export default Ember.View.extend({
         throw new Error('Unable to initialize WebGL. Your browser may not support it.');
       }
     } catch (e) {
-      // TODO: implment handle for 
-      // webgl unsupported
-      alert('webgl is not supported on this browser');
+      this.webGLUnsupporetd();
       return;
     }
 
+    this.webGLSupported(gl);
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
     gl.enable(gl.DEPTH_TEST);
     gl.depthFunc(gl.LEQUAL);
@@ -86,6 +90,26 @@ export default Ember.View.extend({
       this.element.width,
       this.element.height
     );
-  }
+  },
+
+  /**
+   * Called when WebGL feature
+   * has been detected as
+   * supported.
+   *
+   * @method webGLSupported
+   * @param {WebGLRenderingContext} gl Rendering context created
+   */
+  webGLSupported: function () {},
+
+  /**
+   * Called when WebGL feature
+   * has been detected as
+   * unsupported.
+   *
+   * @method webGLUnsupported
+   * @param {Error} error Error instance 
+   */
+  webGLUnsupported: function () {}
 });
 

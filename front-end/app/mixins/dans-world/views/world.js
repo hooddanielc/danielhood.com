@@ -27,6 +27,13 @@ export default Ember.View.extend({
   gl: null,
  
   /**
+   * Indicates the state of the
+   * event loop. Do not manually
+   * modify this property
+   */
+  _eventLoopRunning: false,
+
+  /**
    * Initializes webgl context and
    * handles feature detection for
    * WebGL
@@ -48,12 +55,27 @@ export default Ember.View.extend({
     }
 
     this.webGLSupported(gl);
-    gl.clearColor(0.0, 0.0, 0.0, 1.0);
-    gl.enable(gl.DEPTH_TEST);
-    gl.depthFunc(gl.LEQUAL);
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    this._startRenderLoop();
     this.gl = gl;
   }.on('didInsertElement'),
+
+  _startRenderLoop: function () {
+    var self = this;
+    self.set('_eventLoopRunning', true);
+
+    function step() {
+      if (self.get('_eventLoopRunning') !== true) {
+        return;
+      }
+
+      window.requestAnimationFrame(function (timestamp) {
+        self.renderAnimationFrame.call(self, timestamp);
+        step();
+      });
+    }
+
+    step();
+  },
 
   /**
    * Listens for window resize event
@@ -61,7 +83,7 @@ export default Ember.View.extend({
    * @method _resizeListener
    */
   _resizeListener: function () {
-    this.$(window).on('resize', this.resize.bind(this));
+    // TODO - add window resize event
   }.on('didInsertElement'),
 
   /**
@@ -71,7 +93,8 @@ export default Ember.View.extend({
    * @method _destroyEvents
    */
   _destroyEvents: function () {
-    this.$(window).off('resize', this.resize.bind(this));
+    // TODO - remove window resize event
+    this.set('_eventLoopRunning',  false);
   }.on('willDestroyElement'),
 
   /**
@@ -80,7 +103,7 @@ export default Ember.View.extend({
    * @method resize
    */
   resize: function () {
-    if (!this.gl) {
+    if (!this.gl || !this.element) {
       return;
     }
 
@@ -110,6 +133,20 @@ export default Ember.View.extend({
    * @method webGLUnsupported
    * @param {Error} error Error instance 
    */
-  webGLUnsupported: function () {}
+  webGLUnsupported: function () {},
+ 
+  /**
+   * Override this method to implement
+   * your drawing logic
+   *
+   * @method renderAnimationFrame
+   */
+  renderAnimationFrame: function () {
+    var gl = this.gl;
+    gl.clearColor(0.0, 0.0, 0.0, 1.0);
+    gl.enable(gl.DEPTH_TEST);
+    gl.depthFunc(gl.LEQUAL);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+  }
 });
 

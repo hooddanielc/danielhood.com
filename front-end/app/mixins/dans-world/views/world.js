@@ -55,11 +55,10 @@ export default Ember.View.extend({
     }
 
     this.webGLSupported(gl);
-    this._startRenderLoop();
     this.gl = gl;
   }.on('didInsertElement'),
 
-  _startRenderLoop: function () {
+  startRenderLoop: function () {
     var self = this;
     self.set('_eventLoopRunning', true);
 
@@ -77,13 +76,18 @@ export default Ember.View.extend({
     step();
   },
 
+  stopRenderLoop: function () {
+    this.set('_eventLoopRunning', false);
+  },
+
   /**
    * Listens for window resize event
    *
    * @method _resizeListener
    */
   _resizeListener: function () {
-    // TODO - add window resize event
+    this._boundResizeEventRef = this.resize.bind(this);
+    window.addEventListener('resize', this._boundResizeEventRef);
   }.on('didInsertElement'),
 
   /**
@@ -93,7 +97,7 @@ export default Ember.View.extend({
    * @method _destroyEvents
    */
   _destroyEvents: function () {
-    // TODO - remove window resize event
+    window.removeEventListener('resize', this._boundREsizeEventRef);
     this.set('_eventLoopRunning',  false);
   }.on('willDestroyElement'),
 

@@ -54,8 +54,8 @@ export default Ember.View.extend({
       return;
     }
 
+    this.set('gl', gl);
     this.webGLSupported(gl);
-    this.gl = gl;
   }.on('didInsertElement'),
 
   startRenderLoop: function () {

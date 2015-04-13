@@ -6,7 +6,7 @@ var world;
 module('phreaker-eyes/mixins/dans-world/views/world', {
   beforeEach: function () {
     Ember.run(function () {
-      world = new World({
+      world = World.create({
         controller: Ember.Object.create()
       });
 
@@ -43,7 +43,7 @@ test('creates a opengl rendering context', function (assert) {
       }
     });
 
-    var myWorld = new Mock({
+    var myWorld = Mock.create({
       controller: Ember.Object.create(),
     });
 
@@ -84,7 +84,7 @@ test('starting and stopping render loop', function (assert) {
       }
     });
 
-    var myWorld = new Mock({
+    var myWorld = Mock.create({
       controller: Ember.Object.create() 
     });
 

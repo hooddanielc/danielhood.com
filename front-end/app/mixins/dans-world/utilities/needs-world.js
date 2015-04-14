@@ -14,6 +14,10 @@ export default Ember.Mixin.create(Ember.Evented, {
     }
 
     this.trigger('worldEntered');
-  }.on('init')
+  }.on('init'),
+
+  gl: function () {
+    return this.get('world').get('gl');
+  }.property('world.gl')
 });
 

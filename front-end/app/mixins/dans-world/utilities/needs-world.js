@@ -5,7 +5,7 @@ export default Ember.Mixin.create(Ember.Evented, {
   _assertWorldOk: function () {
     var world = this.get('world');
 
-    if (!(world instanceof World)) {
+    if (!world || !(world instanceof World)) {
       throw new Error('object must be initialized with world instance');
     }
 

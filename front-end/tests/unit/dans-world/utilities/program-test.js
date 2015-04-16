@@ -16,7 +16,7 @@ var MockVertexShader = Shader.extend({
   type: Shader.VERTEX_SHADER,
 
   src: `
-    attribute vec3 vertextPosition;
+    attribute vec3 vertexPosition;
     attribute vec4 vertexColor;
 
     uniform mat4 modelViewMatrix;
@@ -26,7 +26,7 @@ var MockVertexShader = Shader.extend({
 
     void main(void) {
       gl_Position = projectionMatrix * modelViewMatrix *
-        vec4(vertextPosition, 1.0);
+        vec4(vertexPosition, 1.0);
       color = vertexColor;
     }
   `
@@ -55,6 +55,10 @@ test('intiailization', function (assert) {
         var fragmentShader = MockFragmentShader.create({ world: this });
 
         var program = Program.create({
+          vertexAttributes: [
+            'vertexPosition',
+            'vertexColor'
+          ],
           world: this,
           shaders: [
             vertexShader,
@@ -63,7 +67,11 @@ test('intiailization', function (assert) {
         });
 
         program.link();
+        var vals = program.get('vertexAttributeLocations').getProperties('vertexPosition', 'vertexColor');
+        expect(vals.vertexPosition).to.be.a('number');
+        expect(vals.vertexColor).to.be.a('number');
         assert.ok(program);
+        this.destroy();
         done();
       },
 

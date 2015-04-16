@@ -9,8 +9,12 @@ import NeedsWorld from 'phreaker-eyes/mixins/dans-world/utilities/needs-world.js
  * @class Program
  */
 export default Ember.Object.extend(NeedsWorld, {
+  compileSuccess: false,
+  vertexAttributes: [],
+  vertexAttributeLocations: Ember.Object.create(),
+
   initialize: function () {
-    Ember.assert(this.get('shaders').length > 0, "need at least one shader");
+    Ember.assert(this.get('shaders').length > 0, 'need at least one shader');
     this._program = this.get('gl').createProgram();
   }.on('init'),
 
@@ -20,7 +24,7 @@ export default Ember.Object.extend(NeedsWorld, {
     var shaders = this.get('shaders');
 
     shaders.forEach(function (shader) {
-      Ember.assert("Must be an array of shader objects", shader instanceof Shader);
+      Ember.assert('Must be an array of shader objects', shader instanceof Shader);
       self.attachShader(shader);
     });
 
@@ -32,6 +36,24 @@ export default Ember.Object.extend(NeedsWorld, {
         'program failed to link: ' + gl.getProgramInfoLog(this._program),
         success
       );
+    } else {
+      this.set("compileSuccess", true);
+      this.enableVertexAttributes();
+    }
+  },
+
+  enableVertexAttributes: function () {
+    if (this.get('compileSuccess')) {
+      var self = this;
+      var gl = this.get('gl');
+      var attributes = this.get('vertexAttributes');
+      var attributeLocations = this.get('vertexAttributeLocations');
+
+      attributes.forEach(function (attribute) {
+        var loc = gl.getAttribLocation(self._program, attribute);
+        Ember.assert('attribute location probably doesn\'t exist: ' + attribute, loc !== -1);
+        attributeLocations.set(attribute, loc);
+      });
     }
   },
 

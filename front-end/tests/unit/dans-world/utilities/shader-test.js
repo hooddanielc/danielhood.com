@@ -30,6 +30,7 @@ test('intiailization', function (assert) {
         assert.ok(!isNaN(Shader.VERTEX_SHADER));
         assert.ok(!isNaN(Shader.FRAGMENT_SHADER));
         assert.ok(Shader.VERTEX_SHADER === shader.get('type'));
+        this.destroy();
         done();
       },
 
@@ -64,6 +65,7 @@ test('error handling', function (assert) {
         });
 
         assert.ok(errored);
+        this.destroy();
         done();
       },
 

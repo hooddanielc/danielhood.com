@@ -28,6 +28,7 @@ test('intiailization', function (assert) {
           world: this
         }));
 
+        this.destroy();
         done();
       },
 

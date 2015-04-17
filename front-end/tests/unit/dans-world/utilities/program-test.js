@@ -59,6 +59,10 @@ test('intiailization', function (assert) {
             'vertexPosition',
             'vertexColor'
           ],
+          uniforms: [
+            'modelViewMatrix',
+            'projectionMatrix'
+          ],
           world: this,
           shaders: [
             vertexShader,
@@ -68,8 +72,11 @@ test('intiailization', function (assert) {
 
         program.link();
         var vals = program.get('vertexAttributeLocations').getProperties('vertexPosition', 'vertexColor');
+        var uls =  program.get('uniformLocations').getProperties('modelViewMatrix', 'projectionMatrix');
         expect(vals.vertexPosition).to.be.a('number');
         expect(vals.vertexColor).to.be.a('number');
+        assert.ok(uls.modelViewMatrix instanceof window.WebGLUniformLocation);
+        assert.ok(uls.projectionMatrix instanceof window.WebGLUniformLocation);
         assert.ok(program);
         this.destroy();
         done();
@@ -85,7 +92,4 @@ test('intiailization', function (assert) {
   });
 });
 
-// TODO : create functionality for
-// getting and setting attributes
-// and uniforms. 
-
+// TODO create funcitonality for setting uniforms

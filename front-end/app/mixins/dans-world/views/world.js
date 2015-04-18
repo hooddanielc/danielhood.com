@@ -68,6 +68,10 @@ export default Ember.View.extend({
       }
 
       window.requestAnimationFrame(function (timestamp) {
+        if (!self.gl) {
+          return;
+        }
+
         self.renderAnimationFrame.call(self, timestamp);
         step();
       });

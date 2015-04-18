@@ -85,33 +85,103 @@ var Program = Ember.Object.extend(NeedsWorld, {
   attachShader: function (shader) {
     var gl = this.get('gl');
     gl.attachShader(this._program, shader._shader);
+  },
+
+  uniform1f: function (name, glFloatX) {
+    var loc = this.get('uniformLocations.' + name);
+    this.get('gl').uniform1f(loc, glFloatX);
+  },
+
+  uniform1fv: function (name, glFloatArray) {
+    var loc = this.get('uniformLocations.' + name);
+    this.get('gl').uniform1fv(loc, glFloatArray);
+  },
+
+  uniform1i: function (name, glIntX) {
+    var loc = this.get('uniformLocations.' + name);
+    this.get('gl').uniform1i(loc, glIntX);
+  },
+
+  uniform1iv: function (name, glIntArray) {
+    var loc = this.get('uniformLocations.' + name);
+    this.get('gl').uniform1iv(loc, glIntArray);
+  },
+
+  uniform2f: function (name, glFloatX, glFloatY) {
+    var loc = this.get('uniformLocations.' + name);
+    this.get('gl').uniform2f(loc, glFloatX, glFloatY);
+  },
+
+  uniform2fv: function (name, glFloatArray) {
+    var loc = this.get('uniformLocations.' + name);
+    this.get('gl').uniform2fv(loc, glFloatArray);
+  },
+
+  uniform2i: function (name, glIntX, glIntY) {
+    var loc = this.get('uniformLocations.' + name);
+    this.get('gl').uniform2i(loc, glIntX, glIntY);
+  },
+
+  uniform2iv: function (name, glIntArray) {
+    var loc = this.get('uniformLocations.' + name);
+    this.get('gl').uniform2iv(loc, glIntArray);
+  },
+
+  uniform3f: function (name, glFloatX, glFloatY, glFloatZ) {
+    var loc = this.get('uniformLocations.' + name);
+    this.get('gl').uniform3f(loc, glFloatX, glFloatY, glFloatZ);
+  },
+
+  uniform3fv: function (name, glFloatArray) {
+    var loc = this.get('uniformLocations.' + name);
+    this.get('gl').uniform3fv(loc, glFloatArray);
+  },
+
+  uniform3i: function (name, glIntX, glIntY, glIntZ) {
+    var loc = this.get('uniformLocations.' + name);
+    this.get('gl').uniform3i(loc, glIntX, glIntY, glIntZ);
+  },
+
+  uniform3iv: function (name, glIntArray) {
+    var loc = this.get('uniformLocations.' + name);
+    this.get('gl').uniform3iv(loc, glIntArray);
+  },
+
+  uniform4f: function (name, glFloatX, glFloatY, glFloatZ, glFloatW) {
+    var loc = this.get('uniformLocations.' + name);
+    this.get('gl').uniform4f(loc, glFloatX, glFloatY, glFloatZ, glFloatW);
+  },
+
+  uniform4fv: function (name, glFloatArray) {
+    var loc = this.get('uniformLocations.' + name);
+    this.get('gl').uniform4fv(loc, glFloatArray);
+  },
+
+  uniform4i: function (name, glIntX, glIntY, glIntZ, glIntW) {
+    var loc = this.get('uniformLocations.' + name);
+    this.get('gl').uniform4i(loc, glIntX, glIntY, glIntZ, glIntW);
+  },
+
+  uniform4iv: function (name, glIntArray) {
+    var loc = this.get('uniformLocations.' + name);
+    this.get('gl').uniform4iv(loc, glIntArray);
+  },
+
+  uniformMatrix2fv: function (name, transpose, glFloatArray) {
+    var loc = this.get('uniformLocations.' + name);
+    this.get('gl').uniformMatrix2fv(loc, transpose, glFloatArray);
+  },
+
+  uniformMatrix3fv: function (name, transpose, glFloatArray) {
+    var loc = this.get('uniformLocations.' + name);
+    this.get('gl').uniformMatrix3fv(loc, transpose, glFloatArray);
+  },
+
+  uniformMatrix4fv: function (name, transpose, glFloatArray) {
+    var loc = this.get('uniformLocations.' + name);
+    this.get('gl').uniformMatrix4fv(loc, glFloatArray);
   }
 });
 
-var uniformMethods = {};
-
-function uniform1234if(name, value) {
-  console.log(name, value);
-  // TODO
-}
-
-function uniform1234ifv(name, count, value) {
-  console.log(name, count, value);
-  // TODO
-}
-
-function uniformMatrix234fv(name, count, transpose, value) {
-  console.log(name, count, transpose, value);
-  // TODO
-}
-
-for (var i = 1; i <= 4; ++i) {
-  uniformMethods['uniform' + i + 'i'] = uniform1234if;
-  uniformMethods['uniform' + i + 'f'] = uniform1234if;
-  uniformMethods['uniform' + i + 'iv'] = uniform1234ifv;
-  uniformMethods['uniform' + i + 'fv'] = uniform1234ifv;
-  uniformMethods['uniformMatrix' + i + 'fv'] = uniformMatrix234fv;
-}
-
-export default Program.reopenClass(uniformMethods);
+export default Program;
 

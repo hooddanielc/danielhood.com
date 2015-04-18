@@ -78,8 +78,16 @@ test('intiailization', function (assert) {
         assert.ok(uls.modelViewMatrix instanceof window.WebGLUniformLocation);
         assert.ok(uls.projectionMatrix instanceof window.WebGLUniformLocation);
         assert.ok(program);
-        this.destroy();
-        done();
+        this.startRenderLoop();
+        var self = this;
+
+        setTimeout(function () {
+          Ember.run(function () {
+            self.stopRenderLoop();
+            self.destroy();
+            done();
+          });
+        }, 1000);
       },
 
       WebGLUnsupported: function (error) {
@@ -92,4 +100,3 @@ test('intiailization', function (assert) {
   });
 });
 
-// TODO create funcitonality for setting uniforms

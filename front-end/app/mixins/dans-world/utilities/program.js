@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import Buffer from 'phreaker-eyes/mixins/dans-world/utilities/buffer.js';
 import Shader from 'phreaker-eyes/mixins/dans-world/utilities/shader.js';
 import NeedsWorld from 'phreaker-eyes/mixins/dans-world/utilities/needs-world.js';
 
@@ -85,6 +86,25 @@ var Program = Ember.Object.extend(NeedsWorld, {
   attachShader: function (shader) {
     var gl = this.get('gl');
     gl.attachShader(this._program, shader._shader);
+  },
+
+  pointBuffer: function (attributeName, buffer, type, normalized, stride, offset) {
+    Ember.assert(buffer instanceof Buffer);
+    var gl = this.get('gl');
+    var loc = this.get('attributeLocations.' + attributeName);
+    normalized = normalized || false;
+    stride = stride || 0;
+    offset = offset || 0;
+    type = type || gl.FLOAT;
+
+    gl.vertexAttribPointer(
+      loc,
+      buffer.get('dimensions'),
+      type,
+      normalized,
+      stride,
+      offset
+    );
   },
 
   uniform1f: function (name, glFloatX) {

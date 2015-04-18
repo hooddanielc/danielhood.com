@@ -8,7 +8,7 @@ import NeedsWorld from 'phreaker-eyes/mixins/dans-world/utilities/needs-world.js
  *
  * @class Program
  */
-export default Ember.Object.extend(NeedsWorld, {
+var Program = Ember.Object.extend(NeedsWorld, {
   compileSuccess: false,
   vertexAttributes: [],
   uniforms: [],
@@ -87,4 +87,31 @@ export default Ember.Object.extend(NeedsWorld, {
     gl.attachShader(this._program, shader._shader);
   }
 });
+
+var uniformMethods = {};
+
+function uniform1234if(name, value) {
+  console.log(name, value);
+  // TODO
+}
+
+function uniform1234ifv(name, count, value) {
+  console.log(name, count, value);
+  // TODO
+}
+
+function uniformMatrix234fv(name, count, transpose, value) {
+  console.log(name, count, transpose, value);
+  // TODO
+}
+
+for (var i = 1; i <= 4; ++i) {
+  uniformMethods['uniform' + i + 'i'] = uniform1234if;
+  uniformMethods['uniform' + i + 'f'] = uniform1234if;
+  uniformMethods['uniform' + i + 'iv'] = uniform1234ifv;
+  uniformMethods['uniform' + i + 'fv'] = uniform1234ifv;
+  uniformMethods['uniformMatrix' + i + 'fv'] = uniformMatrix234fv;
+}
+
+export default Program.reopenClass(uniformMethods);
 

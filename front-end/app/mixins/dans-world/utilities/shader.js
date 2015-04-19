@@ -22,6 +22,10 @@ var Shader = Ember.Object.extend(NeedsWorld, {
 
   compileError: function(error) {
     throw error;
+  },
+
+  willDestroy: function () {
+    this.get('gl').deleteShader(this._shader);
   }
 });
 

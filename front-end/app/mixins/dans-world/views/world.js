@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 /**
- * The first step to creating a 
+ * The first step to creating a
  * 3D applications is extending
  * this class. It represents all
  * the scenes that make up your
@@ -13,7 +13,19 @@ import Ember from 'ember';
  
 export default Ember.View.extend({
   tagName: 'canvas',
- 
+
+  /*
+  * The resource property holds
+  * all references to objects needing the
+  * world instance. The resources are
+  * destroyed when the `destroy` or
+  * destroyResources is invoked.
+  *
+  * @property resources
+  * @default Object
+  */
+  resources: Ember.Object.create(),
+
   /**
    * WebGL rendering context is created
    * after view has been added to
@@ -155,5 +167,31 @@ export default Ember.View.extend({
     gl.enable(gl.DEPTH_TEST);
     gl.depthFunc(gl.LEQUAL);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+  },
+
+  /**
+  * Removes all resources used inside
+  * this world. This is useful
+  * in case you would like to reuse the
+  * the same WebGL context and canvas element.
+  *
+  * @method destroyAllResources
+  */
+  destroyResources: function () {
+    this.stopRenderLoop();
+    var resources = this.get('resources');
+    var valuesToDestroy = resources.get('arbitrary');
+
+    if (!valuesToDestroy) {
+      return;
+    }
+
+    valuesToDestroy.forEach(function (resource) {
+      resource.destroy();
+    });
+  },
+
+  willDestroy: function () {
+    this.destroyResources();
   }
 });

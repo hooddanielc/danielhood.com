@@ -205,6 +205,10 @@ var Program = Ember.Object.extend(NeedsWorld, {
   uniformMatrix4fv: function (name, transpose, glFloatArray) {
     var loc = this.get('uniformLocations.' + name);
     this.get('gl').uniformMatrix4fv(loc, transpose, glFloatArray);
+  },
+
+  willDestroy: function () {
+    this.get('gl').deleteProgram(this._program);
   }
 });
 

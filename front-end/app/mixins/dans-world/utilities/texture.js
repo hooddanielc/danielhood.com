@@ -51,5 +51,9 @@ export default Buffer.extend({
         resolve();
       }).error(reject);
     });
+  },
+
+  willDestroy: function () {
+    this.get('gl').deleteTexture(this._buffer);
   }
 });

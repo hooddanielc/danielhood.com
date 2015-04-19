@@ -2,6 +2,7 @@ import Ember from 'ember';
 import World from 'phreaker-eyes/mixins/dans-world/views/world';
 
 export default Ember.Mixin.create(Ember.Evented, {
+  resourceType: "arbitrary",
   _assertWorldOk: function () {
     var world = this.get('world');
 
@@ -16,9 +17,20 @@ export default Ember.Mixin.create(Ember.Evented, {
     this.trigger('worldEntered');
   }.on('init'),
 
+  _addToWorldResources: function () {
+    var resourceType = this.get('resourceType');
+    var resourceRoot = this.get('world.resources');
+
+    if (!resourceRoot.get(resourceType)) {
+      resourceRoot.set(resourceType, []);
+    }
+
+    var resourceArray = resourceRoot.get(resourceType);
+    resourceArray.push(this);
+  }.on('init'),
+
   gl: function () {
     Ember.assert('world must be defined. Did you forget to use create instead of new operator?', this.get('world'));
     return this.get('world').get('gl');
   }.property('world.gl')
 });
-

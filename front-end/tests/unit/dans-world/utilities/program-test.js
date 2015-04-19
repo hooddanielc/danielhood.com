@@ -99,4 +99,3 @@ test('intiailization', function (assert) {
     MockWorld.create().appendTo('#ember-testing');
   });
 });
-

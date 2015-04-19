@@ -101,7 +101,7 @@ export default Ember.View.extend({
    * @method _destroyEvents
    */
   _destroyEvents: function () {
-    window.removeEventListener('resize', this._boundREsizeEventRef);
+    window.removeEventListener('resize', this._boundResizeEventRef);
     this.set('_eventLoopRunning',  false);
   }.on('willDestroyElement'),
 
@@ -157,4 +157,3 @@ export default Ember.View.extend({
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
   }
 });
-

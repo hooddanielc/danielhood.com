@@ -17,6 +17,7 @@ export default Ember.Mixin.create(Ember.Evented, {
   }.on('init'),
 
   gl: function () {
+    Ember.assert('world must be defined. Did you forget to use create instead of new operator?', this.get('world'));
     return this.get('world').get('gl');
   }.property('world.gl')
 });

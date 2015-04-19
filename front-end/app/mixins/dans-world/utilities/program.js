@@ -1,7 +1,7 @@
 import Ember from 'ember';
-import Buffer from 'phreaker-eyes/mixins/dans-world/utilities/buffer.js';
-import Shader from 'phreaker-eyes/mixins/dans-world/utilities/shader.js';
-import NeedsWorld from 'phreaker-eyes/mixins/dans-world/utilities/needs-world.js';
+import Buffer from 'phreaker-eyes/mixins/dans-world/utilities/buffer';
+import Shader from 'phreaker-eyes/mixins/dans-world/utilities/shader';
+import NeedsWorld from 'phreaker-eyes/mixins/dans-world/utilities/needs-world';
 
 /**
  * A utility class for linking and
@@ -17,6 +17,7 @@ var Program = Ember.Object.extend(NeedsWorld, {
   uniformLocations: Ember.Object.create(),
 
   initialize: function () {
+    this.use();
     Ember.assert(this.get('shaders').length > 0, 'need at least one shader');
     this._program = this.get('gl').createProgram();
   }.on('init'),
@@ -48,6 +49,7 @@ var Program = Ember.Object.extend(NeedsWorld, {
 
   enableVertexAttributes: function () {
     if (this.get('compileSuccess')) {
+      this.use();
       var self = this;
       var gl = this.get('gl');
       var attributes = this.get('vertexAttributes');
@@ -57,6 +59,7 @@ var Program = Ember.Object.extend(NeedsWorld, {
         var loc = gl.getAttribLocation(self._program, attribute);
         Ember.assert('program is not a program object', loc !== gl.INVALID_OPERATION);
         Ember.assert('attribute location probably doesn\'t exist: ' + attribute, loc !== -1);
+        gl.enableVertexAttribArray(loc);
         attributeLocations.set(attribute, loc);
       });
     }
@@ -64,6 +67,7 @@ var Program = Ember.Object.extend(NeedsWorld, {
 
   enableUniforms: function () {
     if (this.get('compileSuccess')) {
+      this.use();
       var self = this;
       var gl = this.get('gl');
       var uniforms = this.get('uniforms');
@@ -89,13 +93,14 @@ var Program = Ember.Object.extend(NeedsWorld, {
   },
 
   pointBuffer: function (attributeName, buffer, type, normalized, stride, offset) {
-    Ember.assert(buffer instanceof Buffer);
+    Ember.assert('buffer needs to be of type buffer', buffer instanceof Buffer);
     var gl = this.get('gl');
-    var loc = this.get('attributeLocations.' + attributeName);
+    var loc = this.get('vertexAttributeLocations.' + attributeName);
     normalized = normalized || false;
     stride = stride || 0;
     offset = offset || 0;
     type = type || gl.FLOAT;
+    buffer.bind();
 
     gl.vertexAttribPointer(
       loc,
@@ -199,7 +204,7 @@ var Program = Ember.Object.extend(NeedsWorld, {
 
   uniformMatrix4fv: function (name, transpose, glFloatArray) {
     var loc = this.get('uniformLocations.' + name);
-    this.get('gl').uniformMatrix4fv(loc, glFloatArray);
+    this.get('gl').uniformMatrix4fv(loc, transpose, glFloatArray);
   }
 });
 

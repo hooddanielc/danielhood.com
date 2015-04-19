@@ -30,7 +30,8 @@
     "quat",
     "vec2",
     "vec3",
-    "vec4"
+    "vec4",
+    "Float32Array"
   ],
   "node": false,
   "browser": false,

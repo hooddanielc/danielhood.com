@@ -87,7 +87,7 @@ test('intiailization', function (assert) {
             self.destroy();
             done();
           });
-        }, 1000);
+        }, 100);
       },
 
       WebGLUnsupported: function (error) {

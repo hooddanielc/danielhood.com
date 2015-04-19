@@ -17,9 +17,9 @@ export default Ember.Object.extend(NeedsWorld, {
     gl.bindBuffer(this.get('type'), this._buffer);
   },
 
-  bufferData: function (data, usage) {
+  bufferData: function (data) {
     var gl = this.get('gl');
-    gl.bufferData(this.get('type'), data, usage);
+    this.bind();
+    gl.bufferData(this.get('type'), data, this.get('usage'));
   }
 });
-

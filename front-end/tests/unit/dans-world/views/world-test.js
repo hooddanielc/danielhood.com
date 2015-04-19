@@ -69,7 +69,11 @@ test('starting and stopping render loop', function (assert) {
           assert.equal(self.get('_eventLoopRunning'), true, 'event loop state should be running after started');
           myWorld.stopRenderLoop();
           assert.equal(self.get('_eventLoopRunning'), false, 'event loop state should be stopped immendiately');
-          done();
+
+          Ember.run(function () {
+            self.destroy();
+            done();
+          });
         }, 100);
       },
 

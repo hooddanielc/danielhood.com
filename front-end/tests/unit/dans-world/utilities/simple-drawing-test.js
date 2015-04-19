@@ -23,12 +23,12 @@ var MockVertexShader = Shader.extend({
     uniform mat4 modelViewMatrix;
     uniform mat4 projectionMatrix;
 
-    varying vec4 color;
+    varying vec4 vColor;
 
     void main(void) {
       gl_Position = projectionMatrix * modelViewMatrix *
         vec4(vertexPosition, 1.0);
-      color = vertexColor;
+      vColor = vertexColor;
     }
   `
 });
@@ -38,10 +38,10 @@ var MockFragmentShader = Shader.extend({
 
   src: `
     precision mediump float;
-    varying vec4 color;
+    varying vec4 vColor;
 
     void main(void) {
-      gl_FragColor = color;
+      gl_FragColor = vColor;
     }
   `
 });
@@ -52,6 +52,9 @@ test('intiailization', function (assert) {
   Ember.run(function () {
     var MockWorld = World.extend({
       webGLSupported: function () {
+        var gl = this.get('gl');
+        gl.clearColor(0.0, 0.0, 0.0, 1.0);
+        gl.enable(gl.DEPTH_TEST);
         var vertexShader = MockVertexShader.create({ world: this });
         var fragmentShader = MockFragmentShader.create({ world: this });
 
@@ -72,10 +75,107 @@ test('intiailization', function (assert) {
         });
 
         program.link();
-        assert.ok(program);
-        // TODO draw something
-        this.destroy();
-        done();
+
+        var pyramidVertices = [
+          // Front face
+           0.0,  1.0,  0.0,
+          -1.0, -1.0,  1.0,
+           1.0, -1.0,  1.0,
+
+          // Right face
+           0.0,  1.0,  0.0,
+           1.0, -1.0,  1.0,
+           1.0, -1.0, -1.0,
+
+          // Back face
+           0.0,  1.0,  0.0,
+           1.0, -1.0, -1.0,
+          -1.0, -1.0, -1.0,
+
+          // Left face
+           0.0,  1.0,  0.0,
+          -1.0, -1.0, -1.0,
+          -1.0, -1.0,  1.0
+        ];
+
+        var pyramidColors = [
+          // Front face
+          1.0, 0.0, 0.0, 1.0,
+          0.0, 1.0, 0.0, 1.0,
+          0.0, 0.0, 1.0, 1.0,
+
+          // Right face
+          1.0, 0.0, 0.0, 1.0,
+          0.0, 0.0, 1.0, 1.0,
+          0.0, 1.0, 0.0, 1.0,
+
+          // Back face
+          1.0, 0.0, 0.0, 1.0,
+          0.0, 1.0, 0.0, 1.0,
+          0.0, 0.0, 1.0, 1.0,
+
+          // Left face
+          1.0, 0.0, 0.0, 1.0,
+          0.0, 0.0, 1.0, 1.0,
+          0.0, 1.0, 0.0, 1.0
+        ];
+
+        var pyramidColorsBuffer = Buffer.create({
+          world: this,
+          type: gl.ARRAY_BUFFER,
+          usage: gl.STATIC_DRAW,
+          dimensions: 4,
+          size: 12
+        });
+
+        pyramidColorsBuffer.bind();
+        pyramidColorsBuffer.bufferData(new Float32Array(pyramidColors));
+
+        var pyramidVerticesBuffer = Buffer.create({
+          world: this,
+          type: gl.ARRAY_BUFFER,
+          usage: gl.STATIC_DRAW,
+          dimensions: 3,
+          size: 12
+        });
+
+        pyramidVerticesBuffer.bind();
+        pyramidVerticesBuffer.bufferData(new Float32Array(pyramidVertices));
+        this.set('pyramidVerticesBuffer', pyramidVerticesBuffer);
+        this.set('pyramidColorsBuffer', pyramidColorsBuffer);
+        this.set('program', program);
+        this.set('projectionMatrix', mat4.create());
+        this.set('modelViewMatrix', mat4.create());
+        this.startRenderLoop();
+        var self = this;
+
+        setTimeout(function () {
+          Ember.run(function () {
+            assert.ok(program);
+            self.stopRenderLoop();
+            self.destroy();
+            done();
+          });
+        }, 100);
+      },
+
+      renderAnimationFrame: function () {
+        var gl = this.get('gl');
+        var pyramidVertices = this.get('pyramidVerticesBuffer');
+        var pyramidColors = this.get('pyramidColorsBuffer');
+        var program = this.get('program');
+        var projectionMatrix = this.get('projectionMatrix');
+        var modelViewMatrix = this.get('modelViewMatrix');
+        mat4.perspective(projectionMatrix, 45, this.element.width / this.element.height, 0.1, 100.0);
+        mat4.identity(modelViewMatrix);
+        mat4.translate(modelViewMatrix, modelViewMatrix, [0.0, 0.0, -5.0]);
+        gl.viewport(0, 0, this.element.width, this.element.height);
+        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+        program.pointBuffer('vertexPosition', pyramidVertices);
+        program.pointBuffer('vertexColor', pyramidColors);
+        program.uniformMatrix4fv('projectionMatrix', false, projectionMatrix);
+        program.uniformMatrix4fv('modelViewMatrix', false, modelViewMatrix);
+        gl.drawArrays(gl.TRIANGLES, 0, 12);
       },
 
       WebGLUnsupported: function (error) {
@@ -87,4 +187,3 @@ test('intiailization', function (assert) {
     MockWorld.create().appendTo('#ember-testing');
   });
 });
-

@@ -45,6 +45,12 @@ export default Ember.View.extend({
    */
   _eventLoopRunning: false,
 
+  _initWebGLIfCanvasExists: function () {
+    if (this.get('element')) {
+      this._initWebGL();
+    }
+  }.on('init'),
+
   /**
    * Initializes webgl context and
    * handles feature detection for
@@ -53,6 +59,11 @@ export default Ember.View.extend({
    * @method _initWebGL
    */
   _initWebGL: function () {
+    if (window.WebGLRenderingContext && this.get('gl') instanceof WebGLRenderingContext) {
+      return;
+    }
+
+    Ember.assert('init webgl requires a canvas element', this.get('element'));
     var gl = null;
 
     try {
@@ -62,25 +73,32 @@ export default Ember.View.extend({
         throw new Error('Unable to initialize WebGL. Your browser may not support it.');
       }
     } catch (e) {
-      this.webGLUnsupporetd();
+      this.webGLUnsupported();
       return;
     }
 
     this.set('gl', gl);
     this.webGLSupported(gl);
+    this._resizeListener();
   }.on('didInsertElement'),
 
   startRenderLoop: function () {
     var self = this;
+
+    if (self.get('_eventLoopRunning') === true) {
+      return;
+    }
+
     self.set('_eventLoopRunning', true);
 
     function step() {
       if (self.get('_eventLoopRunning') !== true) {
+        self.trigger('renderLoopSuccessfullyStopped');
         return;
       }
 
       window.requestAnimationFrame(function (timestamp) {
-        if (!self.gl) {
+        if (!self.gl || self.isDestroying || self.isDestroyed) {
           return;
         }
 
@@ -93,7 +111,22 @@ export default Ember.View.extend({
   },
 
   stopRenderLoop: function () {
-    this.set('_eventLoopRunning', false);
+    var self = this;
+
+    var promise = new Ember.RSVP.Promise(function (resolve) {
+      if (self.get('_eventLoopRunning') === false) {
+        resolve();
+        return;
+      } else {
+        self.set('_eventLoopRunning', false);
+
+        self.one('renderLoopSuccessfullyStopped', function () {
+          resolve();
+        }); 
+      }
+    });
+
+    return promise;
   },
 
   /**
@@ -104,7 +137,7 @@ export default Ember.View.extend({
   _resizeListener: function () {
     this._boundResizeEventRef = this.resize.bind(this);
     window.addEventListener('resize', this._boundResizeEventRef);
-  }.on('didInsertElement'),
+  },
 
   /**
    * Stop listening to all browser
@@ -178,16 +211,24 @@ export default Ember.View.extend({
   * @method destroyAllResources
   */
   destroyResources: function () {
-    this.stopRenderLoop();
-    var resources = this.get('resources');
-    var valuesToDestroy = resources.get('arbitrary');
+    var self = this;
 
-    if (!valuesToDestroy) {
-      return;
-    }
+    return this.stopRenderLoop().then(function () {
+      return new Ember.RSVP.Promise(function (resolve) {
+        var resources = self.get('resources');
+        var valuesToDestroy = resources.get('arbitrary');
 
-    valuesToDestroy.forEach(function (resource) {
-      resource.destroy();
+        if (!valuesToDestroy) {
+          return;
+        }
+
+        valuesToDestroy.forEach(function (resource) {
+          resource.destroy();
+        });
+
+        self._destroyEvents();
+        resolve();
+      });
     });
   },
 

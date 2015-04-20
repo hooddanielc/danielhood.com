@@ -2,6 +2,7 @@ import { test, module } from 'qunit';
 import Ember from 'ember';
 import World from 'phreaker-eyes/mixins/dans-world/views/world';
 import Shader from 'phreaker-eyes/mixins/dans-world/utilities/shader';
+import NeedsCanvas from '../../../helpers/needs-canvas';
 var world;
 
 module('phreaker-eyes/mixins/dans-world/utilities/shader');
@@ -30,17 +31,18 @@ test('intiailization', function (assert) {
         assert.ok(!isNaN(Shader.VERTEX_SHADER));
         assert.ok(!isNaN(Shader.FRAGMENT_SHADER));
         assert.ok(Shader.VERTEX_SHADER === shader.get('type'));
-        this.destroy();
-        done();
+        this.destroyResources().then(done);
       },
 
       WebGLUnsupported: function (error) {
         assert.ok(error instanceof Error, 'instance must be of type Error');
-        done();
+        this.destroyResources().then(done);
       }
     });
 
-    MockWorld.create().appendTo('#ember-testing');
+    var myWorld = MockWorld.create({
+      element: NeedsCanvas.canvas
+    });
   });
 });
 
@@ -65,17 +67,18 @@ test('error handling', function (assert) {
         });
 
         assert.ok(errored);
-        this.destroy();
-        done();
+        this.destroyResources().then(done);
       },
 
       WebGLUnsupported: function (error) {
         assert.ok(error instanceof Error, 'instance must be of type Error');
-        done();
+        this.destroyResources().then(done);
       }
     });
 
-    MockWorld.create().appendTo('#ember-testing');
+    var myWorld = MockWorld.create({
+      element: NeedsCanvas.canvas
+    });
   });
 });
 

@@ -1,29 +1,12 @@
+import NeedsCanvas from '../../../helpers/needs-canvas';
 import { test, module } from 'qunit';
 import Ember from 'ember';
 import World from 'phreaker-eyes/mixins/dans-world/views/world';
 import Texture from 'phreaker-eyes/mixins/dans-world/utilities/texture';
 var world;
 
-module('phreaker-eyes/mixins/dans-world/views/world', {
-  beforeEach: function () {
-    Ember.run(function () {
-      world = World.create({
-        controller: Ember.Object.create()
-      });
-
-      world.appendTo('#ember-testing');
-    });
-  },
-
-  afterEach: function () {
-    Ember.run(function () {
-      world.destroy();
-    });
-  }
-});
-
 test('exists', function (assert) {
-  assert.ok(world);
+  assert.ok(World);
 });
 
 test('creates a opengl rendering context', function (assert) {
@@ -33,22 +16,18 @@ test('creates a opengl rendering context', function (assert) {
     var Mock = World.extend({
       webGLSupported: function (gl) {
         assert.ok(gl instanceof window.WebGLRenderingContext, 'give back rendering context');
-        myWorld.destroy();
-        done(); 
+        this.destroyResources().then(done);
       },
 
       webGLUnsupported: function (error) {
         assert.ok(error instanceof Error, 'instance must be of type Error');
-        myWorld.destroy();
-        done(); 
+        done();
       }
     });
 
     var myWorld = Mock.create({
-      controller: Ember.Object.create(),
+      element: NeedsCanvas.canvas
     });
-
-    myWorld.appendTo('#ember-testing');
   });
 });
 
@@ -56,8 +35,6 @@ test('loading a valid texture', function (assert) {
   var done = assert.async();
 
   Ember.run(function () {
-    var loopStarted = false;
-
     var Mock = World.extend({
       webGLSupported: function (gl) {
         var self = this;
@@ -74,8 +51,7 @@ test('loading a valid texture', function (assert) {
           setTimeout(function () {
             Ember.run(function (xhr) {
               assert.ok(texture);
-              self.destroy();
-              done();
+              self.destroyResources().then(done);
             });
           }, 100);
         }, function () {
@@ -86,20 +62,14 @@ test('loading a valid texture', function (assert) {
 
       webGLUnsupported: function (error) {
         assert.ok(error instanceof Error, 'instance must be of type Error');
-        myWorld.destroy();
+        myWorld.destroyResources().then(done);
         done(); 
-      },
-
-      renderAnimationFrame: function (timestamp) {
-        loopStarted = true;
       }
     });
 
     var myWorld = Mock.create({
-      controller: Ember.Object.create() 
+      element: NeedsCanvas.canvas
     });
-
-    myWorld.appendTo('#ember-testing');
   });
 });
 
@@ -107,8 +77,6 @@ test('loading an invalid texture', function (assert) {
   var done = assert.async();
 
   Ember.run(function () {
-    var loopStarted = false;
-
     var Mock = World.extend({
       webGLSupported: function (gl) {
         var self = this;
@@ -122,27 +90,19 @@ test('loading an invalid texture', function (assert) {
           throw new Error("texture image not rejected: /fixtures/does-not-exist.jpg");
         }, function () {
           assert.ok(texture);
-          self.destroy();
-          done();
+          self.destroyResources().then(done);
         });
       },
 
       webGLUnsupported: function (error) {
         assert.ok(error instanceof Error, 'instance must be of type Error');
-        myWorld.destroy();
+        myWorld.destroyResources().then(done);
         done(); 
-      },
-
-      renderAnimationFrame: function (timestamp) {
-        loopStarted = true;
       }
     });
 
     var myWorld = Mock.create({
-      controller: Ember.Object.create() 
+      element: NeedsCanvas.canvas
     });
-
-    myWorld.appendTo('#ember-testing');
   });
 });
-

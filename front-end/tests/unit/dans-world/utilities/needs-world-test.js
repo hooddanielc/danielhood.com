@@ -2,6 +2,7 @@ import { test, module } from 'qunit';
 import Ember from 'ember';
 import NeedsWorld from 'phreaker-eyes/mixins/dans-world/utilities/needs-world';
 import World from 'phreaker-eyes/mixins/dans-world/views/world.js';
+import NeedsCanvas from '../../../helpers/needs-canvas';
 
 module('phreaker-eyes/mixins/dans-world/utilities/needs-world');
 
@@ -28,8 +29,7 @@ test('intiailization', function (assert) {
           world: this
         }));
 
-        this.destroy();
-        done();
+        this.destroyResources().then(done);
       },
 
       webGLUnsupported: function (error) {
@@ -37,7 +37,9 @@ test('intiailization', function (assert) {
       }
     });
 
-    var world = MockWorld.create().appendTo('#ember-testing');
+    var myWorld = MockWorld.create({
+      element: NeedsCanvas.canvas
+    });
   });
 });
 

@@ -5,6 +5,7 @@ import World from 'phreaker-eyes/mixins/dans-world/views/world';
 import Shader from 'phreaker-eyes/mixins/dans-world/utilities/shader';
 import Program from 'phreaker-eyes/mixins/dans-world/utilities/program';
 import Buffer from 'phreaker-eyes/mixins/dans-world/utilities/buffer';
+import NeedsCanvas from '../../../helpers/needs-canvas';
 var world;
 module('phreaker-eyes/mixins/dans-world/utilities/program');
 
@@ -153,8 +154,12 @@ test('intiailization', function (assert) {
           Ember.run(function () {
             assert.ok(program);
             self.stopRenderLoop();
-            self.destroy();
-            done();
+
+            setTimeout(function () {
+              Ember.run(function () {
+                self.destroyResources().then(done);
+              });
+            }, 1000);
           });
         }, 100);
       },
@@ -184,6 +189,8 @@ test('intiailization', function (assert) {
       }
     });
 
-    MockWorld.create().appendTo('#ember-testing');
+    var myWorld = MockWorld.create({
+      element: NeedsCanvas.canvas
+    });
   });
 });

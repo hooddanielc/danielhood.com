@@ -1,28 +1,14 @@
 import { test, module } from 'qunit';
 import Ember from 'ember';
 import World from 'phreaker-eyes/mixins/dans-world/views/world';
-var world;
+import NeedsCanvas from '../../../helpers/needs-canvas';
 
 module('phreaker-eyes/mixins/dans-world/views/world', {
-  beforeEach: function () {
-    Ember.run(function () {
-      world = World.create({
-        controller: Ember.Object.create()
-      });
-
-      world.appendTo('#ember-testing');
-    });
-  },
-
-  afterEach: function () {
-    Ember.run(function () {
-      world.destroy();
-    });
-  }
+  beforeEach: NeedsCanvas.ensureCanvasCreated()
 });
 
 test('exists', function (assert) {
-  assert.ok(world);
+  assert.ok(World);
 });
 
 test('creates a opengl rendering context', function (assert) {
@@ -32,22 +18,18 @@ test('creates a opengl rendering context', function (assert) {
     var Mock = World.extend({
       webGLSupported: function (gl) {
         assert.ok(gl instanceof window.WebGLRenderingContext, 'give back rendering context');
-        myWorld.destroy();
-        done(); 
+        this.destroyResources().then(done);
       },
 
       webGLUnsupported: function (error) {
         assert.ok(error instanceof Error, 'instance must be of type Error');
-        myWorld.destroy();
-        done(); 
+        this.destroyResources().then(done);
       }
     });
 
     var myWorld = Mock.create({
-      controller: Ember.Object.create(),
+      element: NeedsCanvas.canvas
     });
-
-    myWorld.appendTo('#ember-testing');
   });
 });
 
@@ -71,16 +53,14 @@ test('starting and stopping render loop', function (assert) {
           assert.equal(self.get('_eventLoopRunning'), false, 'event loop state should be stopped immendiately');
 
           Ember.run(function () {
-            self.destroy();
-            done();
+            self.destroyResources().then(done);
           });
         }, 100);
       },
 
       webGLUnsupported: function (error) {
         assert.ok(error instanceof Error, 'instance must be of type Error');
-        myWorld.destroy();
-        done(); 
+        this.destroyResources().then(done);
       },
 
       renderAnimationFrame: function (timestamp) {
@@ -89,10 +69,8 @@ test('starting and stopping render loop', function (assert) {
     });
 
     var myWorld = Mock.create({
-      controller: Ember.Object.create() 
+      element: NeedsCanvas.canvas
     });
-
-    myWorld.appendTo('#ember-testing');
   });
 });
 

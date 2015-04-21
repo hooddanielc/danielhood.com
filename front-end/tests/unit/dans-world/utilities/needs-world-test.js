@@ -52,7 +52,7 @@ test('throws if world instance does not exist', function (assert) {
         initialized = true;
       }.on('worldEntered')
     });
-    
+
     var failure = false;
 
     try {
@@ -65,4 +65,3 @@ test('throws if world instance does not exist', function (assert) {
     assert.ok(!initialized);
   });
 });
-

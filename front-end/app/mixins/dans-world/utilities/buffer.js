@@ -1,6 +1,11 @@
 import Ember from 'ember';
 import NeedsWorld from 'phreaker-eyes/mixins/dans-world/utilities/needs-world.js';
 
+/**
+ * A utility class for creating a webgl buffer object
+ *
+ * @class Buffer
+ */
 export default Ember.Object.extend(NeedsWorld, {
   type: window.WebGLRenderingContext ? window.WebGLRenderingContext.ARRAY_BUFFER : null,
   usage: window.WebGLRenderingContext ? window.WebGLRenderingContext.STATIC_DRAW : null,

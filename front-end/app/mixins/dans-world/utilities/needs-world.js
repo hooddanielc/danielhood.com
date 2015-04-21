@@ -1,6 +1,12 @@
 import Ember from 'ember';
 import World from 'phreaker-eyes/mixins/dans-world/views/world';
 
+/**
+ * A utility class used with any objects
+ * requireing a world or webgl instance
+ *
+ * @class NeedsWorld
+ */
 export default Ember.Mixin.create(Ember.Evented, {
   resourceType: "arbitrary",
   _assertWorldOk: function () {

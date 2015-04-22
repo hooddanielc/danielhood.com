@@ -22,6 +22,11 @@ var Program = Ember.Object.extend(NeedsWorld, {
     this._program = this.get('gl').createProgram();
   }.on('init'),
 
+  /**
+  * Call when you want to link the shaders
+  *
+  * @method link
+  */
   link: function () {
     var self = this;
     var gl = this.get('gl');
@@ -47,6 +52,13 @@ var Program = Ember.Object.extend(NeedsWorld, {
     }
   },
 
+  /**
+  * Gets attribute locations and fails
+  * if program isn't linked yet. Method
+  * is called during link()
+  *
+  * @method enableVertexAttributes
+  */
   enableVertexAttributes: function () {
     if (this.get('compileSuccess')) {
       this.use();
@@ -65,6 +77,13 @@ var Program = Ember.Object.extend(NeedsWorld, {
     }
   },
 
+  /**
+  * Gets uniform locations and fails
+  * if program isn't linked yet. Method
+  * is called during link()
+  *
+  * @method enableUniforms
+  */
   enableUniforms: function () {
     if (this.get('compileSuccess')) {
       this.use();
@@ -83,15 +102,33 @@ var Program = Ember.Object.extend(NeedsWorld, {
     }
   },
 
+  /**
+  * Calls gl.useProgram using the
+  * webgl context from World instance
+  *
+  * @method use
+  */
   use: function () {
     this.get('gl').useProgram(this._program);
   },
 
+  /**
+  * Attaches a shader using
+  * gl.attachShader()
+  *
+  * @method attachShader
+  * @param {uint} shader opengl shader instance
+  */
   attachShader: function (shader) {
     var gl = this.get('gl');
     gl.attachShader(this._program, shader._shader);
   },
 
+  /**
+  * Calls gl.vertexAttribPointer
+  *
+  * @method pointBuffer
+  */
   pointBuffer: function (attributeName, buffer, type, normalized, stride, offset) {
     Ember.assert('buffer needs to be of type buffer', buffer instanceof Buffer);
     var gl = this.get('gl');

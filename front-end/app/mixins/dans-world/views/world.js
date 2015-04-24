@@ -219,15 +219,15 @@ export default Ember.View.extend({
         var valuesToDestroy = resources.get('arbitrary');
 
         if (!valuesToDestroy) {
-          return;
+          resolve();
+        } else {
+          valuesToDestroy.forEach(function (resource) {
+            resource.destroy();
+          });
+
+          self._destroyEvents();
+          resolve();
         }
-
-        valuesToDestroy.forEach(function (resource) {
-          resource.destroy();
-        });
-
-        self._destroyEvents();
-        resolve();
       });
     });
   },

@@ -90,6 +90,7 @@ export default Ember.View.extend({
     }
 
     self.set('_eventLoopRunning', true);
+    var lastTime = 0;
 
     function step() {
       if (self.get('_eventLoopRunning') !== true) {
@@ -102,7 +103,8 @@ export default Ember.View.extend({
           return;
         }
 
-        self.renderAnimationFrame.call(self, timestamp);
+        self.renderAnimationFrame.call(self, timestamp - lastTime, timestamp);
+        lastTime = timestamp;
         step();
       });
     }

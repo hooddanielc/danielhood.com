@@ -236,6 +236,8 @@ test('rendering some inspiration', function (assert) {
           self.set('modelViewMatrix', mat4.create());
           self.set('program', program);
           self.set('rainbowTexture', rainbowTexture);
+          self.set('hugFeelsTexture', hugFeelsTexture);
+          self.set('feelsGoodTexture', feelsGoodTexture);
           self.startRenderLoop();
 
           setTimeout(function () {
@@ -249,31 +251,72 @@ test('rendering some inspiration', function (assert) {
                 });
               }, 1000);
             });
-          }, 100);
+          }, 99999999);
         }).catch(function (err) {
           throw err;
         });
       },
 
-      renderAnimationFrame: function () {
+      rotationRight: 0,
+      rotationLeft: 0,
+
+      renderAnimationFrame: function (lastTime) {
         var gl = this.get('gl');
         var projectionMatrix = this.get('projectionMatrix');
         var modelViewMatrix = this.get('modelViewMatrix');
         var squareVertices = this.get('squareVertexPositionsBuffer');
         var squareTextureCoords = this.get('squareTextureCoordsBuffer');
         var rainbowTexture = this.get('rainbowTexture');
+        var hugFeelsTexture = this.get('hugFeelsTexture');
+        var feelsGoodTexture = this.get('feelsGoodTexture');
         var program = this.get('program');
         mat4.perspective(projectionMatrix, 45, this.element.width / this.element.height, 0.1, 100.0);
+
+        // clear
+        gl.viewport(0, 0, this.element.width, this.element.height);
+        gl.clearColor(0.0, 0.0, 0.0, 1.0);
+        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+        // draw the rainbow background
         mat4.identity(modelViewMatrix);
-        mat4.translate(modelViewMatrix, modelViewMatrix, [0.0, 0.0, -1.0]);
+        mat4.translate(modelViewMatrix, modelViewMatrix, [0.0, 0.0, -16.0]);
+        mat4.scale(modelViewMatrix, modelViewMatrix, [16.0, 9.0, 1.0]);
         program.pointBuffer('vertexPosition', squareVertices);
         program.pointBuffer('textureCoord', squareTextureCoords);
         program.uniformMatrix4fv('projectionMatrix', false, projectionMatrix);
         program.uniformMatrix4fv('modelViewMatrix', false, modelViewMatrix);
         program.uniform1i('sampler', 0);
         rainbowTexture.bind();
-        gl.viewport(0, 0, this.element.width, this.element.height);
-        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+        // draw the hugs
+        this.rotationRight += 0.001 * lastTime;
+        mat4.identity(modelViewMatrix);
+        mat4.translate(modelViewMatrix, modelViewMatrix, [2.0, 0.0, -5.0]);
+        mat4.rotateY(modelViewMatrix, modelViewMatrix, this.rotationRight);
+        mat4.rotateX(modelViewMatrix, modelViewMatrix, this.rotationRight);
+        mat4.rotateZ(modelViewMatrix, modelViewMatrix, this.rotationRight);
+        program.pointBuffer('vertexPosition', squareVertices);
+        program.pointBuffer('textureCoord', squareTextureCoords);
+        program.uniformMatrix4fv('projectionMatrix', false, projectionMatrix);
+        program.uniformMatrix4fv('modelViewMatrix', false, modelViewMatrix);
+        program.uniform1i('sampler', 0);
+        hugFeelsTexture.bind();
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+        // draw the feels
+        this.rotationLeft -= 0.001 * lastTime;
+        mat4.identity(modelViewMatrix);
+        mat4.translate(modelViewMatrix, modelViewMatrix, [-2.0, 0.0, -5.0]);
+        mat4.rotateY(modelViewMatrix, modelViewMatrix, this.rotationLeft);
+        mat4.rotateX(modelViewMatrix, modelViewMatrix, this.rotationLeft);
+        mat4.rotateZ(modelViewMatrix, modelViewMatrix, this.rotationLeft);
+        program.pointBuffer('vertexPosition', squareVertices);
+        program.pointBuffer('textureCoord', squareTextureCoords);
+        program.uniformMatrix4fv('projectionMatrix', false, projectionMatrix);
+        program.uniformMatrix4fv('modelViewMatrix', false, modelViewMatrix);
+        program.uniform1i('sampler', 0);
+        feelsGoodTexture.bind();
         gl.drawArrays(gl.TRIANGLES, 0, 6);
       },
 

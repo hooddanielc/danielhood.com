@@ -13,7 +13,7 @@ export default {
     var canvasElement = Ember.$('#ember-testing canvas');
 
     if (!canvasElement[0]) {
-      Ember.$('#ember-testing').append("<canvas/>");
+      Ember.$('#ember-testing').append("<canvas width=\"1280\" height=\"764\"/>");
       this.canvas = Ember.$('#ember-testing canvas')[0];
     }
   }

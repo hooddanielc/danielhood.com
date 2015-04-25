@@ -18,4 +18,6 @@ var app = new EmberApp();
 // along with the exports of each module as its value.
 
 app.import('bower_components/gl-matrix/dist/gl-matrix.js');
+app.import('bower_components/skeleton/css/normalize.css');
+app.import('bower_components/skeleton/css/skeleton.css');
 module.exports = app.toTree();

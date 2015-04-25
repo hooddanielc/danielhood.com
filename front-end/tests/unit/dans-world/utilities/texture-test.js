@@ -251,7 +251,7 @@ test('rendering some inspiration', function (assert) {
                 });
               }, 1000);
             });
-          }, 99999999);
+          }, 100);
         }).catch(function (err) {
           throw err;
         });

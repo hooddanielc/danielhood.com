@@ -1,0 +1,51 @@
+a {
+  text-decoration: none;
+}
+
+html {
+  font-size: 50%;
+}
+
+.page-container {
+  padding: 0 1.5rem;
+}
+
+#header {
+  position: relative;
+}
+
+$break-large: 1100px;
+
+#header-responsive {
+  width: 100%;
+  margin: 0;
+}
+
+@media (min-width: $break-large) {
+  #header-responsive {
+    width: $break-large;
+    margin: 0px auto;
+  }
+}
+
+.navbar-list {
+  list-style: none;
+  display: inline-block;
+  margin: 0;
+
+  .navbar-item {
+    position: relative;
+    float: left;
+    margin: 0;
+
+    a {
+      line-height: 6.0rem;
+      padding: 0 1.5rem;
+      color: #000000;
+    }
+
+    a:hover {
+      color: #1EAEDB;
+    }
+  }
+}

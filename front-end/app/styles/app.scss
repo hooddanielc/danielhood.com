@@ -14,7 +14,7 @@ html {
   position: relative;
 }
 
-$break-large: 1100px;
+$break-large: 1000px;
 
 #header-responsive {
   width: 100%;
@@ -41,11 +41,20 @@ $break-large: 1100px;
     a {
       line-height: 6.0rem;
       padding: 0 1.5rem;
-      color: #000000;
+      color: #ffffff;
     }
 
     a:hover {
       color: #1EAEDB;
     }
   }
+}
+
+.main-page-renderer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
 }

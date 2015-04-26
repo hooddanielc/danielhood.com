@@ -5,4 +5,3 @@ export default Ember.Route.extend({
     console.log('init');
   }.on('init')
 });
-

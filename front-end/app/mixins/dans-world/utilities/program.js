@@ -149,46 +149,113 @@ var Program = Ember.Object.extend(NeedsWorld, {
     );
   },
 
+  /**
+  * sets uniform float value
+  *
+  * @param {String} name uniform variable name
+  * @param {Float} glFloatX uniform value
+  * @method uniform1f
+  */
   uniform1f: function (name, glFloatX) {
     var loc = this.get('uniformLocations.' + name);
     this.get('gl').uniform1f(loc, glFloatX);
   },
 
+  /**
+  * sets uniform float array value
+  *
+  * @param {String} name uniform variable name
+  * @param {Float32Array} glFloatArray uniform value
+  * @method uniform1fv
+  */
   uniform1fv: function (name, glFloatArray) {
     var loc = this.get('uniformLocations.' + name);
     this.get('gl').uniform1fv(loc, glFloatArray);
   },
 
+  /**
+  * sets uniform integer value
+  *
+  * @param {String} name uniform variable name
+  * @param {Integer} glIntX uniform value
+  * @method uniform1i
+  */
   uniform1i: function (name, glIntX) {
     var loc = this.get('uniformLocations.' + name);
     this.get('gl').uniform1i(loc, glIntX);
   },
 
+  /**
+  * sets uniform integer array value
+  *
+  * @param {String} name uniform variable name
+  * @param {IntegerArray} glIntArray uniform value
+  * @method uniform1iv
+  */
   uniform1iv: function (name, glIntArray) {
     var loc = this.get('uniformLocations.' + name);
     this.get('gl').uniform1iv(loc, glIntArray);
   },
 
+  /**
+  * sets 2 dimensional uniform vector value
+  *
+  * @param {String} name uniform variable name
+  * @param {Float} glFloatX uniform[0] value
+  * @param {Float} glFloatY uniform[1] value
+  * @method uniform2f
+  */
   uniform2f: function (name, glFloatX, glFloatY) {
     var loc = this.get('uniformLocations.' + name);
     this.get('gl').uniform2f(loc, glFloatX, glFloatY);
   },
 
+  /**
+  * sets 2 dimensional uniform vector float array value
+  *
+  * @param {String} name uniform variable name
+  * @param {Float32Array} glFloatArray uniform value
+  * @method uniform2fv
+  */
   uniform2fv: function (name, glFloatArray) {
     var loc = this.get('uniformLocations.' + name);
     this.get('gl').uniform2fv(loc, glFloatArray);
   },
 
+  /**
+  * sets 2 dimensional uniform vector integer value
+  *
+  * @param {String} name uniform variable name
+  * @param {Integer} glIntX uniform[0] value
+  * @param {Integer} glIntY uniform[1] value
+  * @method uniform2i
+  */
   uniform2i: function (name, glIntX, glIntY) {
     var loc = this.get('uniformLocations.' + name);
     this.get('gl').uniform2i(loc, glIntX, glIntY);
   },
 
+  /**
+  * sets 2 dimensional uniform vector integer array value
+  *
+  * @param {String} name uniform variable name
+  * @param {IntegerArray} glIntArray uniform value
+  * @method uniform2iv
+  */
   uniform2iv: function (name, glIntArray) {
     var loc = this.get('uniformLocations.' + name);
     this.get('gl').uniform2iv(loc, glIntArray);
   },
 
+  /**
+  * sets 3 dimensional uniform vector float value
+  *
+  * @param {String} name uniform variable name
+  * @param {Float} glFloatX uniform[0] value
+  * @param {Float} glFloatY uniform[1] value
+  * @param {Float} glFloatZ uniform[2] value
+  * @method uniform3f
+  */
   uniform3f: function (name, glFloatX, glFloatY, glFloatZ) {
     var loc = this.get('uniformLocations.' + name);
     this.get('gl').uniform3f(loc, glFloatX, glFloatY, glFloatZ);

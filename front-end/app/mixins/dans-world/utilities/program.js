@@ -261,6 +261,14 @@ var Program = Ember.Object.extend(NeedsWorld, {
     this.get('gl').uniform3f(loc, glFloatX, glFloatY, glFloatZ);
   },
 
+  /**
+  * sets 3 dimensional uniform vector float array value
+  *
+  * @param {String} name uniform variable name
+  * @param {Float32Array} glFloatArray uniform value
+
+  * @method uniform3fv
+  */
   uniform3fv: function (name, glFloatArray) {
     var loc = this.get('uniformLocations.' + name);
     this.get('gl').uniform3fv(loc, glFloatArray);

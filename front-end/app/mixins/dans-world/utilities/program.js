@@ -266,7 +266,6 @@ var Program = Ember.Object.extend(NeedsWorld, {
   *
   * @param {String} name uniform variable name
   * @param {Float32Array} glFloatArray uniform value
-
   * @method uniform3fv
   */
   uniform3fv: function (name, glFloatArray) {
@@ -274,21 +273,54 @@ var Program = Ember.Object.extend(NeedsWorld, {
     this.get('gl').uniform3fv(loc, glFloatArray);
   },
 
+  /**
+  * sets 3 dimensional uniform vector integer value
+  *
+  * @param {String} name uniform variable name
+  * @param {Integer} glIntX uniform[0] value
+  * @param {Integer} glIntY uniform[1] value
+  * @param {Integer} glIntZ uniform[2] value
+  * @method uniform3i
+  */
   uniform3i: function (name, glIntX, glIntY, glIntZ) {
     var loc = this.get('uniformLocations.' + name);
     this.get('gl').uniform3i(loc, glIntX, glIntY, glIntZ);
   },
 
+  /**
+  * sets 3 dimensional uniform vector integer array value
+  *
+  * @param {String} name uniform variable name
+  * @param {Float32Array} glIntArray uniform value
+  * @method uniform3iv
+  */
   uniform3iv: function (name, glIntArray) {
     var loc = this.get('uniformLocations.' + name);
     this.get('gl').uniform3iv(loc, glIntArray);
   },
 
+  /**
+  * sets 3 dimensional uniform vector float value
+  *
+  * @param {String} name uniform variable name
+  * @param {Float} glFloatX uniform[0] value
+  * @param {Float} glFloatY uniform[1] value
+  * @param {Float} glFloatZ uniform[2] value
+  * @param {Float} glFloatW uniform[3] value
+  * @method uniform4f
+  */
   uniform4f: function (name, glFloatX, glFloatY, glFloatZ, glFloatW) {
     var loc = this.get('uniformLocations.' + name);
     this.get('gl').uniform4f(loc, glFloatX, glFloatY, glFloatZ, glFloatW);
   },
 
+  /**
+  * sets 3 dimensional uniform vector integer array value
+  *
+  * @param {String} name uniform variable name
+  * @param {Float32Array} glFloatArray uniform value
+  * @method uniform4fv
+  */
   uniform4fv: function (name, glFloatArray) {
     var loc = this.get('uniformLocations.' + name);
     this.get('gl').uniform4fv(loc, glFloatArray);

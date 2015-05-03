@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 /**
- * @class ObjParser
+ * @class WaveFrontParser
  *
  * A helper type for parsing
  * wavefront 3d format.

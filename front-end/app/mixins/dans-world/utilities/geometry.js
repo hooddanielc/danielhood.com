@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import NeedsWorld from 'phreaker-eyes/mixins/dans-world/utilities/needs-world.js';
+import ObjParser from 'phreaker-eyes/mixins/dans-world/utilities/wave-front-parser.js';
 
 /**
  * An object that represents geometry.
@@ -7,13 +8,15 @@ import NeedsWorld from 'phreaker-eyes/mixins/dans-world/utilities/needs-world.js
  * @class Geometry
  */
 export default Ember.Object.extend(NeedsWorld, {
-  objFile: "/assets/world.json",
+  objFile: null,
+  loadingPromise: null,
 
   load: function () {
-    return new Ember.RSVP.Promise(function () {
-      // TODO : load object file
-      // including images
-    });
+    var p = ObjParser.create({
+      objFile: "/public/fixtures/wave-front/v-for-vendetta-mask/vmask.obj"
+    }).load();
+
+    this.set('loadingPromise', p);
   },
 
   getBuffers: function () {

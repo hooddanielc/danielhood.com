@@ -28,10 +28,10 @@ export default Ember.Object.extend(Ember.Evented, {
       req.onprogress = function (progressEvent) {
         var data = progressEvent.currentTarget.responseText.substring(
           cursor,
-          progressEvent.position
+          progressEvent.loaded
         );
 
-        cursor = progressEvent.position;
+        cursor = progressEvent.loaded;
         self.trigger('progress', progressEvent);
         self.trigger('data', data);
       };

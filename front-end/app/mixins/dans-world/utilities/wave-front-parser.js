@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import HttpReadStream from 'phreaker-eyes/mixins/dans-world/utilities/http-read-stream';
 
 /**
  * @class WaveFrontParser
@@ -6,35 +7,45 @@ import Ember from 'ember';
  * A helper type for parsing
  * wavefront 3d format.
  */
-export default Ember.Object.extend({
-  objFile: null,
+export default Ember.Object.extend(Ember.Evented, {
+  objUrl: null,
   loadingPromise: null,
   popMaxRaw: 10000,
   popMaxLines: 5000,
-  idleRawTime: 1,
-  idleLineTime: 1,
-  _queuesProcessing: 0,
-  _rawQueue: "",
-  _lineQueue: null,
-  _materialQueue: null,
-  _doneLoading: false,
+  popMaxMaterials: 500,
+  idleRawTick: 100,
+  idleLineTick: 100,
 
   _initInstanceProps: function () {
     this.setProperties({
       _rawQueue: [],
       _lineQueue: [],
-      _materialQueue: []
+      _materialQueue: [],
+      _queuesProcessing: 0,
+      _incrementQueus: 0
     });
+
+    this.idleParseMaterialTick();
+    this.idleParseRawTick();
+    this.idleParseLineTick();
   }.on('init'),
 
   _isDoneLoading: function () {
-    return (
-      this.get("_rawQueue").length === 0 &&
-      this.get("_lineQueue").length === 0 &&
-      this.get("_materialQueue").length === 0 &&
-      this.get("_queuesProcessing") === 0 &&
-      this.get("_doneLoading")
-    );
+    var done = this.get("_queuesProcessing");
+
+    if (done === 0 && this.get("_resolve")) {
+      this.get("_resolve");
+    } else {
+      return false;
+    }
+  },
+
+  _inc: function () {
+    this.incrementProperty('_queuesProcessing');
+  },
+
+  _dec: function () {
+    this.decrementProperty('_queuesProcessing');
   },
 
   /**
@@ -43,51 +54,90 @@ export default Ember.Object.extend({
    * and turns them into lines
    */
   idleParseRawTick: function () {
+    var q = this.get("_rawQueue");
+
     if (this._isDoneLoading()) {
       return;
-    } else {
-      // TODO synchronous action here
     }
-  }.on('init'),
+
+    setTimeout(function () {
+      this.idleParseRawTick();
+    }.bind(this), this.get("_idleRawTime"));
+
+    if (q.length === 0) {
+      return;
+    }
+  },
 
   /**
    * Shifts an amount of lines
    * off of the line queue
    * and invokes parse events.
    */
-  idleParseLine: function idleParseLine() {
-    if (this._isDoneLoading()) {
-      return;
-    } else {
-      // TODO synchronous action here
-    }
-  }.on('init'),
+  idleParseLineTick: function () {
+    var q = this.get("_lineQueue");
 
-  /**
-   * Shifts an amount of materials
-   * off of the line queue and
-   * invokes parse events.
-   */
-  idleParseMaterial: function () {
     if (this._isDoneLoading()) {
       return;
-    } else {
-      // TODO synchronous action here
     }
-  }.on('init'),
+
+    setTimeout(function () {
+      this.idleParseLineTick();
+    }.bind(this), this.get("_idleRawTime"));
+  
+    if (q.length === 0) {
+      return;
+    }
+  },
 
   /**
    * Shifts an amount of
    * materials to start
    * parsing through
    */
+  idleParseMaterialTick: function () {
+    var q = this.get("_materialQueue");
+
+    if (this._isDoneLoading()) {
+      return;
+    }
+
+    setTimeout(function () {
+      this.idleParseMaterialTick();
+    }.bind(this), this.get("_idleRawTidleParseMaterialime"));
+
+    if (q.length === 0) {
+      return;
+    }
+  },
 
   load: function () {
-    var p = new Ember.RSVP.Promise(function () {
-      // TODO
-    });
+    return this.read(HttpReadStream.create({
+      url: this.get("objUrl")
+    }));
+  },
 
-    this.set('loadingPromise', p);
+  read: function (reader) {
+    var p = new Ember.RSVP.Promise(function (resolve, reject) {
+      this._inc();
+
+      if (this._isDoneLoading()) {
+        reject();
+      } else {
+        this.set("_resolve", resolve);
+        this.set("_reject", reject);
+        this._inc();
+
+        reader.on("data", function (data) {
+          var raw = this.get("_rawQueue");
+          raw += data;
+          console.log(data);
+        }).read().then(function () {
+          this._dec();
+        }.bind(this), reject);
+      }
+    }.bind(this));
+
     return p;
   }
 });

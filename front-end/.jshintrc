@@ -12,7 +12,8 @@
     "vec2",
     "vec3",
     "vec4",
-    "Float32Array"
+    "Float32Array",
+    "async"
   ],
   "browser": true,
   "boss": true,

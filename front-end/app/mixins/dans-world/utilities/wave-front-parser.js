@@ -7,22 +7,22 @@ import HttpReadStream from 'phreaker-eyes/mixins/dans-world/utilities/http-read-
  * A helper type for parsing
  * wavefront 3d format.
  */
-export default Ember.Object.extend(Ember.Evented, {
+var WaveFrontParser = Ember.Object.extend(Ember.Evented, {
   objUrl: null,
-  loadingPromise: null,
-  popMaxRaw: 10000,
-  popMaxLines: 5000,
-  popMaxMaterials: 500,
-  idleRawTick: 100,
-  idleLineTick: 100,
+  popMaxRaw: 100000,
+  popMaxLines: 10000,
+  popMaxMaterials: 5,
+  idleRawTick: 1,
+  idleLineTick: 1,
+  idleMaterialTick: 1,
 
   _initInstanceProps: function () {
     this.setProperties({
-      _rawQueue: [],
+      _rawQueue: "",
       _lineQueue: [],
       _materialQueue: [],
       _queuesProcessing: 0,
-      _incrementQueus: 0
+      _objFileResolved: false
     });
 
     this.idleParseMaterialTick();
@@ -34,18 +34,19 @@ export default Ember.Object.extend(Ember.Evented, {
     var done = this.get("_queuesProcessing");
 
     if (done === 0 && this.get("_resolve")) {
-      this.get("_resolve");
+      this.get("_resolve")();
+      return true;
     } else {
       return false;
     }
   },
 
   _inc: function () {
-    this.incrementProperty('_queuesProcessing');
+    return this.incrementProperty('_queuesProcessing');
   },
 
   _dec: function () {
-    this.decrementProperty('_queuesProcessing');
+    return this.decrementProperty('_queuesProcessing');
   },
 
   /**
@@ -54,19 +55,34 @@ export default Ember.Object.extend(Ember.Evented, {
    * and turns them into lines
    */
   idleParseRawTick: function () {
-    var q = this.get("_rawQueue");
-
-    if (this._isDoneLoading()) {
-      return;
-    }
+    this._inc();
 
     setTimeout(function () {
-      this.idleParseRawTick();
-    }.bind(this), this.get("_idleRawTime"));
+      var raw = this.get("_rawQueue");
 
-    if (q.length === 0) {
-      return;
-    }
+      if (raw.length > 0) {
+        var limit = this.get("popMaxRaw");
+        var work = raw.substring(0, limit);
+        var lines = work.split(/\r?\n/);
+        this.set('_rawQueue', lines.pop() + raw.substring(limit, raw.length));
+
+        lines.forEach(function (line) {
+          line = line.trim();
+
+          if (line !== '') {
+            this.get('_lineQueue').push(line);
+          }
+        }.bind(this));
+      }
+
+      this._dec();
+
+      if (!this.get('_objFileResolved') || this.get('_rawQueue').length > 0) {
+        this.idleParseRawTick();
+      }
+
+      this._isDoneLoading();
+    }.bind(this), this.get("idleRawTick"));
   },
 
   /**
@@ -75,19 +91,38 @@ export default Ember.Object.extend(Ember.Evented, {
    * and invokes parse events.
    */
   idleParseLineTick: function () {
-    var q = this.get("_lineQueue");
-
-    if (this._isDoneLoading()) {
-      return;
-    }
+    this._inc();
 
     setTimeout(function () {
-      this.idleParseLineTick();
-    }.bind(this), this.get("_idleRawTime"));
-  
-    if (q.length === 0) {
-      return;
-    }
+      var lines = this.get('_lineQueue');
+
+      if (lines.length > 0) {
+        var work = lines.splice(0, this.get('popMaxLines'));
+
+        work.forEach(function (line) {
+          var tokens = line.split(/\s+/);
+          var first = tokens.shift();
+
+          if (first.substring(0, 1) === '#') {
+            this.trigger('token_comment', tokens);
+          } else if (first === 'mtllib') {
+            this.trigger('token', first, tokens);
+            this.get('_materialQueue').push(tokens);
+          } else {
+            this.trigger('token', first, tokens);
+            this.trigger('token_' + first, tokens);
+          }
+        }.bind(this));
+      }
+
+      this._dec();
+
+      if (!this.get('_objFileResolved') || this.get('_rawQueue').length > 0 || this.get('_lineQueue').length > 0) {
+        this.idleParseLineTick();
+      }
+
+      this._isDoneLoading();
+    }.bind(this), this.get("idleLineTick"));
   },
 
   /**
@@ -96,19 +131,51 @@ export default Ember.Object.extend(Ember.Evented, {
    * parsing through
    */
   idleParseMaterialTick: function () {
-    var q = this.get("_materialQueue");
-
-    if (this._isDoneLoading()) {
-      return;
-    }
+    this._inc();
 
     setTimeout(function () {
-      this.idleParseMaterialTick();
-    }.bind(this), this.get("_idleRawTidleParseMaterialime"));
+      var materials = this.get('_materialQueue');
 
-    if (q.length === 0) {
-      return;
-    }
+      if (materials.length > 0) {
+        var work = materials.splice(0, this.get("popMaxMaterials"));
+        var promises = [];
+
+        work.forEach(function (material) {
+          var materialResult = {};
+          var objUrl = this.get('objUrl').split('/');
+          objUrl[objUrl.length - 1] = material[0];
+          var materialUrl = objUrl.join('/');
+
+          var p = WaveFrontParser.create({
+            objUrl: materialUrl
+          }).on('token', function (token, args) {
+            materialResult[token] = args;
+          }).load().then(function () {
+            this.trigger('material', materialUrl, materialResult);
+          }.bind(this), function (reason) {
+            this.trigger('material_failed', materialUrl, reason);
+          }.bind(this));
+
+          promises.push(p);
+        }.bind(this));
+
+        Ember.RSVP.Promise.all(promises).then(function () {
+          this._dec();
+          this.idleParseMaterialTick();
+        }.bind(this), function () {
+          this._dec();
+          this.idleParseMaterialTick();
+        }.bind(this));
+      } else {
+        this._dec();
+
+        if (this.get('_lineQueue').length > 0 || !this.get('_objFileResolved')) {
+          this.idleParseMaterialTick();
+        }
+
+        this._isDoneLoading();
+      }
+    }.bind(this), this.get("idleMaterialTick"));
   },
 
   load: function () {
@@ -119,25 +186,21 @@ export default Ember.Object.extend(Ember.Evented, {
 
   read: function (reader) {
     var p = new Ember.RSVP.Promise(function (resolve, reject) {
+      this.set("_resolve", resolve);
+      this.set("_reject", reject);
       this._inc();
 
-      if (this._isDoneLoading()) {
-        reject();
-      } else {
-        this.set("_resolve", resolve);
-        this.set("_reject", reject);
-        this._inc();
-
-        reader.on("data", function (data) {
-          var raw = this.get("_rawQueue");
-          raw += data;
-          console.log(data);
-        }).read().then(function () {
-          this._dec();
-        }.bind(this), reject);
-      }
+      reader.on("data", function (data) {
+        var raw = this.get("_rawQueue");
+        this.set("_rawQueue", raw + data);
+      }.bind(this)).read().then(function () {
+        this.set('_objFileResolved', true);
+        this._dec();
+      }.bind(this), reject);
     }.bind(this));
 
     return p;
   }
 });
+
+export default WaveFrontParser;

@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import NeedsWorld from 'phreaker-eyes/mixins/dans-world/utilities/needs-world.js';
-import ObjParser from 'phreaker-eyes/mixins/dans-world/utilities/wave-front-parser.js';
+import WaveFrontParser from 'phreaker-eyes/mixins/dans-world/utilities/wave-front-parser.js';
 
 /**
  * An object that represents geometry.
@@ -8,29 +8,44 @@ import ObjParser from 'phreaker-eyes/mixins/dans-world/utilities/wave-front-pars
  * @class Geometry
  */
 export default Ember.Object.extend(NeedsWorld, {
-  objFile: null,
-  loadingPromise: null,
+  objUrl: null,
 
   load: function () {
-    var p = ObjParser.create({
-      objFile: "/public/fixtures/wave-front/v-for-vendetta-mask/vmask.obj"
-    }).load();
+    if (this.get('isLoaded')) {
+      return;
+    }
 
-    this.set('loadingPromise', p);
-  },
+    this.set('isLoaded', true);
+    var meshes = {};
+    var currentObject;
 
-  getBuffers: function () {
-    return new Ember.RSVP.Promise(function () {
-      // TODO : load the geometry
-      // to gpu, and return 
-      // an object that also has
-      // an `mat4 mvp` property
-      // with all instances of the
-      // buffers with a bind method
+    return WaveFrontParser.create({
+      objUrl: this.get('objUrl')
+    }).on('token_o', function (args) {
+      currentObject = args[0];
+
+      meshes[currentObject] = {
+        v: [],
+        vt: [],
+        vn: [],
+        f: []
+      };
+    }).on('token_v', function (args) {
+      meshes[currentObject].v.push(args);
+    }).on('token_vt', function (args) {
+      meshes[currentObject].vt.push(args);
+    }).on('token_vn', function (args) {
+      meshes[currentObject].vn.push(args);
+    }).on('token_f', function (args) {
+      meshes[currentObject].f.push(args);
+    }).on('material', function (url, material) {
+      var split = url.split('/');
+      split[split.length - 1] = material.map_Kd[0];
+      meshes[currentObject].textureUrl = split.join('/');
+    }).load().then(function () {
+      // TODO - this is where we
+      // create the buffers
+      console.log(meshes);
     });
-  },
-
-  intialize: function () {
-    console.log('TODO');
-  }.on('init')
+  }
 });

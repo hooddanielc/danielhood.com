@@ -8,7 +8,31 @@ test('exists', function (assert) {
   assert.ok(World);
 });
 
-test('it loads json', function (assert) {
-  // TODO - create a world instance
-  assert.ok(Geometry);
+test('it creates buffers', function (assert) {
+  var done = assert.async();
+
+  Ember.run(function () {
+    var MockWorld = World.extend({
+      webGLSupported: function () {
+        var gl = this.get('gl');
+
+        Geometry.create({
+          world: this,
+          objUrl: '/fixtures/wave-front/joel-cube/joel-cube.wavefront'
+        }).load().then(function () {
+          assert.ok(Geometry);
+          done();
+        });
+      },
+
+      WebGLUnsupported: function (error) {
+        assert.ok(error instanceof Error, 'instance must be of type Error');
+        done();
+      }
+    });
+
+    var myWorld = MockWorld.create({
+      element: NeedsCanvas.canvas
+    });
+  });
 });

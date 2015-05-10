@@ -82,7 +82,7 @@ export default Ember.Object.extend(NeedsWorld, {
     var texture;
 
     return new Ember.RSVP.Promise(function (resolve) {
-      async.mapLimit(rawObjData.f, 1000, function (face, cb) {
+      async.mapLimit(rawObjData.f, 2000, function (face, cb) {
         face.forEach(function (vertex) {
           var indexes = vertex.split('/');
           var _v = indexes[0] - 1;

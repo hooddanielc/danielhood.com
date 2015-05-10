@@ -22,7 +22,8 @@ var WaveFrontParser = Ember.Object.extend(Ember.Evented, {
       _lineQueue: [],
       _materialQueue: [],
       _queuesProcessing: 0,
-      _objFileResolved: false
+      _objFileResolved: false,
+      _materialPromises: []
     });
 
     this.idleParseMaterialTick();
@@ -159,17 +160,24 @@ var WaveFrontParser = Ember.Object.extend(Ember.Evented, {
           promises.push(p);
         }.bind(this));
 
-        Ember.RSVP.Promise.all(promises).then(function () {
+        var _materialPromises = this.get('_materialPromises');
+
+        var all = Ember.RSVP.Promise.all(promises).then(function () {
+          _materialPromises.pop();
           this._dec();
           this.idleParseMaterialTick();
         }.bind(this), function () {
           this._dec();
           this.idleParseMaterialTick();
+          _materialPromises.pop();
         }.bind(this));
+
+        _materialPromises.push(all);
+        this.set('_materialPromises', _materialPromises);
       } else {
         this._dec();
 
-        if (this.get('_lineQueue').length > 0 || !this.get('_objFileResolved')) {
+        if (this.get('_materialPromises').length > 0 || this.get('_lineQueue').length > 0 || !this.get('_objFileResolved')) {
           this.idleParseMaterialTick();
         }
 

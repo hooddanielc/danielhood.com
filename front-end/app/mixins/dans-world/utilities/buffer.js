@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import NeedsWorld from 'phreaker-eyes/mixins/dans-world/utilities/needs-world.js';
+import NeedsWorld from 'phreaker-eyes/mixins/dans-world/utilities/needs-world';
 
 /**
  * A utility class for creating a webgl buffer object

@@ -1,7 +1,7 @@
 import Ember from 'ember';
-import NeedsWorld from 'phreaker-eyes/mixins/dans-world/utilities/needs-world.js';
-import WaveFrontParser from 'phreaker-eyes/mixins/dans-world/utilities/wave-front-parser.js';
-import Buffer from 'phreaker-eyes/mixins/dans-world/utilities/buffer.js';
+import NeedsWorld from 'phreaker-eyes/mixins/dans-world/utilities/needs-world';
+import WaveFrontParser from 'phreaker-eyes/mixins/dans-world/utilities/wave-front-parser';
+import Buffer from 'phreaker-eyes/mixins/dans-world/utilities/buffer';
 import Texture from 'phreaker-eyes/mixins/dans-world/utilities/texture';
 
 /**

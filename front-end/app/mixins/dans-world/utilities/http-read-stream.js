@@ -18,22 +18,25 @@ export default Ember.Object.extend(Ember.Evented, {
       Ember.assert('url is a truthy value', self.get('url'));
       var req = new window.XMLHttpRequest();
       self.trigger('XMLHttpRequestCreated', req);
-      req.open("GET", self.get('url'), true);
       var cursor = 0;
+
+      req.onreadystatechange = function () {
+        self.trigger('readystatechange', req);
+        var text = req.responseText;
+
+        if (cursor !== text.length) {
+          var data = text.substring(cursor, text.length);
+          cursor = text.length;
+          self.trigger('data', data);
+        }
+      };
 
       req.onloadstart = function (progressEvent) {
         self.trigger('loadstart', progressEvent);
       };
 
       req.onprogress = function (progressEvent) {
-        var data = progressEvent.currentTarget.responseText.substring(
-          cursor,
-          progressEvent.loaded
-        );
-
-        cursor = progressEvent.loaded;
         self.trigger('progress', progressEvent);
-        self.trigger('data', data);
       };
 
       req.onabort = function (progressEvent) {
@@ -57,6 +60,7 @@ export default Ember.Object.extend(Ember.Evented, {
         resolve();
       };
 
+      req.open("GET", self.get('url'), true);
       req.send();
     });
   }

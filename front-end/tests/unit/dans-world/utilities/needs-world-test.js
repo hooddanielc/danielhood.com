@@ -1,7 +1,7 @@
 import { test, module } from 'qunit';
 import Ember from 'ember';
 import NeedsWorld from 'phreaker-eyes/mixins/dans-world/utilities/needs-world';
-import World from 'phreaker-eyes/mixins/dans-world/views/world.js';
+import World from 'phreaker-eyes/mixins/dans-world/views/world';
 import NeedsCanvas from '../../../helpers/needs-canvas';
 
 module('phreaker-eyes/mixins/dans-world/utilities/needs-world');

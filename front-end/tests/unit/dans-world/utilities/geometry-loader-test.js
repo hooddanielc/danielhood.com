@@ -83,6 +83,7 @@ test('it creates buffers', function (assert) {
           objUrl: '/fixtures/wave-front/joel-cube/joel-cube-warped.wavefront'
         }).load().then(function (buffers) {
           expect(buffers.length).to.eql(1);
+          console.log(buffers);
           expect(buffers[0].name).to.eql('Cube_Cube.001');
           expect(buffers[0].buffers.v instanceof Buffer).to.eql(true);
           expect(buffers[0].buffers.vn instanceof Buffer).to.eql(true);
@@ -104,7 +105,7 @@ test('it creates buffers', function (assert) {
                 });
               }, 1000);
             });
-          }, 100);
+          }, 100000);
         });
       },
 

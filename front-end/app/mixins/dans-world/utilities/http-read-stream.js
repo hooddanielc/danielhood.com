@@ -19,15 +19,30 @@ export default Ember.Object.extend(Ember.Evented, {
       var req = new window.XMLHttpRequest();
       self.trigger('XMLHttpRequestCreated', req);
       var cursor = 0;
+      var ua = window.navigator.userAgent;
+      var msie = ua.indexOf('MSIE ');
+      var wint = ua.indexOf('Trident');
 
       req.onreadystatechange = function () {
         self.trigger('readystatechange', req);
-        var text = req.responseText;
 
-        if (cursor !== text.length) {
-          var data = text.substring(cursor, text.length);
-          cursor = text.length;
-          self.trigger('data', data);
+        if (msie > 0 || wint > 0) {
+          if (req.readyState === 4) {
+            self.trigger('data', req.responseText);
+            resolve();
+          }
+        } else {
+          var text = req.responseText;
+
+          if (cursor !== text.length) {
+            var data = text.substring(cursor, text.length);
+            cursor = text.length;
+            self.trigger('data', data);
+          }
+
+          if (req.readyState === 4) {
+            resolve();
+          }
         }
       };
 
@@ -57,7 +72,6 @@ export default Ember.Object.extend(Ember.Evented, {
 
       req.onloadend = function (progressEvent) {
         self.trigger('loadend', progressEvent);
-        resolve();
       };
 
       req.open("GET", self.get('url'), true);

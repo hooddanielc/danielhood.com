@@ -1,0 +1,146 @@
+<article class="article-passionate">
+  <img class="hang-right" alt="Daniel Hood" src="/images/daniel-hood.png" />
+
+  <p>
+    I'm a passionate software developer currently doing all that I can to better myself as a professional software engineer.
+  </p>
+
+  <p>
+    I started programming when I was a teenager and have never stopped. I studied software development in college for three years in Idaho and California, but I have learned at least as much from working on programming projects on my own. I've always been impatient with myself, always eager to learn how to write new kinds of things. Programming keeps leading me forward. 
+  </p>
+
+  <p>
+    While a student 2012, I took a summer internship at Tagged in San Francisco. It was the most concentrated learning experience of my life and launched my career as a professional software developer. I stayed on at Tagged after my internship, working as a contractor. It was also the place where I met the man I married, so I can truly say it was a turning point in my life.
+  </p>
+
+  <div class="hang-left hang-break">
+    <div id="home-good-to-know">
+      <p class="text-bold">
+        You can see my personal work on:
+      </p>
+      <ul>
+        <li>
+          <p>
+            <a href="http://www.havenofcode.com">Haven of Code</a>
+          </p>
+        </li>
+        <li>
+          <p>
+            <a href="http://www.github.com/hooddanielc">My Github</a>
+          </p>
+        </li>
+      </ul>
+
+      <p class="text-bold">
+        I also have two Android apps in Google Play:
+      </p>
+      <ul>
+        <li>
+          <p>
+            Muscle Memory, a game for fast-twitch players
+          </p>
+        </li>
+        <li>
+          <p>
+            Syntax-Highlighted Code Editor, a mobile text editor for programmers
+          </p>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <p>
+    Since then, I have been working in the San Francisco area. Exposure to different development teams and work environments has helped me to gain perspective. I think good software development is object-oriented, test-driven, rapidly iterated, and as fully automated as possible. I hope my next team will build on these ideas and help me to grow and learn as a developer.
+  </p>
+
+  <div id="buzz-word-grid">
+    <div class="row">
+      <div class="four columns">
+        <p class="buzz-word-row-title">
+          Languages
+        </p>
+        {{#each language in model.languages}}
+          <p>{{language}}</p>
+        {{/each}}
+      </div>
+      <div class="two columns">
+        <p class="buzz-word-row-title">
+          Front-End
+        </p>
+        {{#each frontBuzzWord in model.frontBuzzWords}}
+          <p>{{frontBuzzWord}}</p>
+        {{/each}}
+      </div>
+      <div class="two columns">
+        <p class="buzz-word-row-title">
+          Back-End
+        </p>
+        {{#each backendBuzzWord in model.backendBuzzWords}}
+          <p>{{backendBuzzWord}}</p>
+        {{/each}}
+      </div>
+      <div class="four columns">
+        <p class="buzz-word-row-title">
+          Tools & Testing
+        </p>
+        {{#each toolsBuzzWord in model.toolsBuzzWords}}
+          <p>{{toolsBuzzWord}}</p>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+
+  <h5 class="text-center home-header-sub-title text-bold">
+    Professional Experience
+  </h5>
+  <h5 class="text-center home-header-sub-bullets">
+    User Experience • Client & Server • Web & Native Mobile Platforms • Linux, Mac, Windows
+  </h5>
+
+  {{#each experience in model.experiences}}
+    <div class="experience-item">
+      <p class="date-range">
+        {{experience.startDate}} / {{experience.endDate}}
+      </p>
+      <p class="where">
+        {{experience.company}},
+        {{experience.city}},
+        {{experience.state}}
+      </p>
+      <p class="title">{{experience.title}}</p>
+      <ul class="list-exp">
+        {{#each gain in experience.gained}}
+          <li>
+            {{gain}}
+          </li>
+        {{/each}}
+      </ul>
+    </div>
+  {{/each}}
+
+  <h5 class="text-center">
+    Education
+  </h5>
+
+  {{#each edumacation in model.edumacations}}
+    <div class="experience-item">
+      <p class="date-range">
+        {{edumacation.startDate}} - {{edumacation.endDate}}
+      </p>
+      <p class="where">
+        {{edumacation.school}},
+        {{edumacation.city}},
+        {{edumacation.state}}
+      </p>
+      <p class="title">{{edumacation.description}}</p>
+    </div>
+  {{/each}}
+
+  <h5 class="text-center">
+    References
+  </h5>
+
+  <p class="text-center">
+    Available on request.
+  </p>
+</article>

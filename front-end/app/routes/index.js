@@ -7,13 +7,16 @@ export default Ember.Route.extend({
         "ActionScript",
         "Bash",
         "C++",
+        "C",
         "CSS 2/3",
         "Java",
         "JavaScript",
         "Objective-C",
         "PHP",
         "Python",
-        "Swift"
+        "Swift",
+        "GLSL",
+        "Ruby"
       ],
       frontBuzzWords: [
         "AngularJS",
@@ -23,17 +26,20 @@ export default Ember.Route.extend({
         "PhoneGap",
         "Underscore",
         "Wordpress",
-        "YUI 2/3"
+        "YUI 2/3",
+        "Meteor",
+        "Arduino"
       ],
       backendBuzzWords: [
         "Apache",
         "Kerberos",
         "MongoDB",
-        "MySql",
+        "MySql/Maria",
         "Postgres",
         "NodeJS",
         "PyBottle",
-        "Tomcat"
+        "Tomcat",
+        "Rails"
       ],
       toolsBuzzWords: [
         "Eclipse",
@@ -50,16 +56,43 @@ export default Ember.Route.extend({
         "Vi",
         "Visual Studio",
         "Vows",
-        "X-Code"
+        "X-Code",
+        "ESLint",
+        "JSHint",
+        "Arduino",
+        "Raspberry Pi",
+        "Nano"
       ],
       experiences: [
+        {
+          company: "ZOOPPA",
+          state: "WA",
+          city: "Seattle",
+          title: "Front-End Engineer (Contractor)",
+          startDate: "7/15",
+          endDate: "+",
+          gained: [
+            "The main EmberJS consultant and structure of front end",
+            `
+              Helped developed CMS front/backend application for zooppa.com to 
+              help clients choose contest winners
+            `,
+            `
+              Currently building out the consumer community facing website
+              in Ember 2.1.0
+            `,
+            "Pushed front end unit testing methods with ember-cli",
+            "Learned Ruby on Rails with Active Model",
+            "Learned Emblem templating language to ease the burden of writing handlebar templates"
+          ]
+        },
         {
           company: "APPLE",
           state: "CA",
           city: "Cupertino",
           title: "Front-End Engineer (Contractor)",
           startDate: "4/14",
-          endDate: "+",
+          endDate: "7/15",
           gained: [
             "Developed server- and client-side web applications for http://www.apple.com website.",
             "Designed and built website testing tools using NodeJS and C++.",
@@ -142,9 +175,5 @@ export default Ember.Route.extend({
         }
       ]
     }
-  },
-
-  intialize: function () {
-    console.log('init');
-  }.on('init')
+  }
 });

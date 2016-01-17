@@ -1,0 +1,100 @@
+article
+  img.hang-right alt='Daniel Hood' src='/images/daniel-hood.png'
+  p
+    ' I'm a passionate software developer currently
+    ' doing all that I can to better myself as a
+    ' professional software engineer.
+
+  p
+    ' I started programming when I was a teenager and
+    ' have never stopped. I studied software development
+    ' in college for three years in Idaho and California,
+    ' but I have learned at least as much from working on
+    ' programming projects on my own. I've always been
+    ' impatient with myself, always eager to learn how to
+    ' write new kinds of things. Programming keeps leading
+    ' me forward.
+
+  p
+    ' While a student 2012, I took a summer internship at
+    ' Tagged in San Francisco. It was the most concentrated
+    ' learning experience of my life and launched my career as
+    ' a professional software developer. I stayed on at Tagged
+    ' after my internship, working as a contractor. It was also
+    ' the place where I met the man I married, so I can truly say
+    ' it was a turning point in my life.
+
+  .hang-left.hang-break
+    #home-good-to-know
+      p.text-bold You can see my personal work on:
+
+      ul
+        li
+          p
+            a href='http://www.havenofcode.com'
+        li
+          p
+            a href='http://www.github.com/hooddanielc' My Github
+
+      p.text-bold I also have two Android apps in Google Play:
+
+      ul
+        li
+          p Muscl Memory, a game for fast-twitch players
+        li
+          p
+            ' Syntax-Highlighted Code Editor, a mobile text
+            ' editor for programmers
+
+  p
+    ' Since then, I have been working in the Seattle area keeping the
+    ' same mind set. Exposure to different development teams and work
+    ' environments has helped me to gain perspective. I think good software
+    ' development is object-oriented, test-driven, rapidly iterated, and as
+    ' fully automated as possible. I hope my next team will build on these
+    ' ideas and help me to grow and learn as a developer.
+
+  #buzz-word-grid
+    .row
+      .four.columns
+        .buzz-word-row-title Languages
+        each model.languages as |language|
+          p = language
+      .two.columns
+        p.buzz-word-row-title Front-End
+        each model.frontBuzzWords as |frontBuzzWord|
+          p = frontBuzzWord
+      .two.columns
+        p.buzz-word-row-title Back-End
+        each model.backendBuzzWords as |backendBuzzWord|
+          p = backendBuzzWord
+      .four.columns
+        p.buzz-word-row-title Tools & Testing
+        each model.toolsBuzzWords as |toolsBuzzWord|
+          p = toolsBuzzWord
+
+  h5.text-center.home-header-sub-title.text-bold Professional Experience
+  h5.text-center.home-header-sub-bullets
+    ' User Experience • Client & Server
+    ' • Web & Native Mobile Platforms • Linux, Mac, Windows
+
+  each model.experiences as |experience|
+    .experience-item
+      p.date-range {{experience.startDate}} to {{experience.endDate}}
+      p.where {{experience.company}}, {{experience.city}}, {{experience.state}}
+      p.title = experience.title
+      ul.list-exp
+        each experience.gained as |gain|
+          li = gain
+
+  h5.text-center Education
+
+  each model.edumacations as |edumacation|
+    .experience-item
+      .date-range {{edumacation.startDate}} - {{edumacation.endDate}}
+      p.where {{edumacation.school}}, {{edumacation.city}}, {{edumacation.state}}
+      p.title = edumacation.description
+
+  h5.text-center References
+  p.text-center Available on request.
+

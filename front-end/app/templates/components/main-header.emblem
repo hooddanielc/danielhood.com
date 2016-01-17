@@ -1,0 +1,7 @@
+h2.text-center.home-header-title.text-bold
+  | Daniel Hood
+h5.text-center.home-header-sub-title.text-bold
+  | Front-End Software Engineer
+h5.text-center.home-header-sub-bullets
+  | User Experience • Client & Server • 
+  | Web & Native Mobile Platforms • Linux, Mac, Windows

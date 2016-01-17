@@ -21,23 +21,12 @@
     "andThen",
     "currentURL",
     "currentPath",
-    "currentRouteName",
-    "glMatrix",
-    "mat4",
-    "mat3",
-    "mat2",
-    "mat2d",
-    "quat",
-    "vec2",
-    "vec3",
-    "vec4",
-    "Float32Array",
-    "async"
+    "currentRouteName"
   ],
   "node": false,
   "browser": false,
   "boss": true,
-  "curly": false,
+  "curly": true,
   "debug": false,
   "devel": false,
   "eqeqeq": true,
@@ -58,5 +47,6 @@
   "strict": false,
   "white": false,
   "eqnull": true,
-  "esnext": true
+  "esnext": true,
+  "unused": true
 }

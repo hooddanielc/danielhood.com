@@ -2,18 +2,7 @@
   "predef": [
     "document",
     "window",
-    "-Promise",
-    "glMatrix",
-    "mat4",
-    "mat3",
-    "mat2",
-    "mat2d",
-    "quat",
-    "vec2",
-    "vec3",
-    "vec4",
-    "Float32Array",
-    "async"
+    "-Promise"
   ],
   "browser": true,
   "boss": true,

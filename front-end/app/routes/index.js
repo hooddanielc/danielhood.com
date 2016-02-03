@@ -28,7 +28,8 @@ export default Ember.Route.extend({
         "Wordpress",
         "YUI 2/3",
         "Meteor",
-        "Arduino"
+        "Arduino",
+        "Raspberry Pi"
       ],
       backendBuzzWords: [
         "Apache",
@@ -112,7 +113,7 @@ export default Ember.Route.extend({
             "On-call prototype-maker for many projects initiated by the company founders.",
             "Principle engineer for an iOS application called Me Flashcards, which was an in-classroom educational tool delivered on iPads.",
             "Principle engineer for the Digital Candy project, a service for managing the property rights for digital media. This included a large multimedia indexing engine and a user interface for searching it.",
-            "Designed and developed small websites to support specific marketing efforts, such as promoting Earth Day (http://theadvocator.com/earthday/)."
+            "Designed and developed small websites to support specific marketing efforts, such as promoting Sustainable Living (http://www.ecodads.org/)."
           ]
         },
         {

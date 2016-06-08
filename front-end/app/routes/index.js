@@ -65,13 +65,26 @@ export default Ember.Route.extend({
         "Nano"
       ],
       experiences: [
+      {
+          company: "GETTY IMAGES",
+          state: "WA",
+          city: "Seattle",
+          title: "Front-End Engineer (Contractor)",
+          startDate: "2/16",
+          endDate: "6/16",
+          gained: [
+            "Worked on consumer facing gallery",
+            "Used teaspoon for unit testing framework",
+            "Build template driven UI using handlebars"
+          ]
+        },
         {
           company: "ZOOPPA",
           state: "WA",
           city: "Seattle",
           title: "Front-End Engineer (Contractor)",
           startDate: "7/15",
-          endDate: "+",
+          endDate: "2/16",
           gained: [
             "The main EmberJS consultant and structure of front end",
             `

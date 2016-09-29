@@ -40,9 +40,12 @@ export default Ember.Route.extend({
         "NodeJS",
         "PyBottle",
         "Tomcat",
-        "Rails"
+        "Rails",
+        "Docker"
       ],
       toolsBuzzWords: [
+        "Babel",
+        "WebPack",
         "Eclipse",
         "gcc",
         "Git",
@@ -62,7 +65,10 @@ export default Ember.Route.extend({
         "JSHint",
         "Arduino",
         "Raspberry Pi",
-        "Nano"
+        "Nano",
+        "Docker",
+        "Virtual Box",
+        "VMWare"
       ],
       experiences: [
         {

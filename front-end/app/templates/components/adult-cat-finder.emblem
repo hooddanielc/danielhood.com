@@ -1,0 +1,12 @@
+if canPeak
+  header{ action 'open' }
+    h4 Adult Cat Finder
+
+    unless peakingMode
+      a href='#' close
+  .profile-pic
+    img src='/images/{{name}}.gif'
+  .dialogue
+    .message-kitty Hey you are cute!
+  .input
+    input type='text'

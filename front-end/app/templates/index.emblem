@@ -1,3 +1,5 @@
+main-header class="main-header"
+
 article
   img.hang-right alt='Daniel Hood' src='/images/daniel-hood.png'
   p
@@ -97,4 +99,3 @@ article
 
   h5.text-center References
   p.text-center Available on request.
-

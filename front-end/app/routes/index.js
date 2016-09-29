@@ -65,7 +65,21 @@ export default Ember.Route.extend({
         "Nano"
       ],
       experiences: [
-      {
+        {
+          company: "EXPEDIA",
+          state: "WA",
+          city: "Bellevue",
+          title: "Front-End Engineer (Contractor)",
+          startDate: "7/16",
+          endDate: "9/16",
+          gained: [
+            "Maintained Expedia's consumer facing hotel site and develop new features and experiments",
+            "Developed end2end testing image for docker using headless selenium software",
+            "Implemeneted new features using Jetty, Gradle, Maven, Java and Scala",
+            "Created integration testing framework written in es6 transpiled to es5 javascript"
+          ]
+        },
+        {
           company: "GETTY IMAGES",
           state: "WA",
           city: "Seattle",
@@ -188,6 +202,6 @@ export default Ember.Route.extend({
           description: "Computer and Information Sciences, Web Development"
         }
       ]
-    }
+    };
   }
 });

@@ -4,13 +4,29 @@ export default Ember.Component.extend({
   classNames: ['adult-cat-finder', 'hidden-2'],
   name: 'pink',
   peakingMode: true,
-  canPeak: false,
-  delayRender: 10000,
+  canPeek: false,
   switchAnimationInterval: 1500,
   userInput: '',
   messages: null,
 
   start: function () {
+    console.log([
+      '',
+      'Welcome!',
+      '',
+      'Invoke the function `easter` in the console to begin!',
+      '',
+      'Example: `easter()`',
+      '',
+      ''
+    ].join('\n'));
+
+    window.easter = () => {
+      Ember.run(() => {
+        this.set('canPeek', true);
+      });
+    };
+
     this.set('messages', Ember.A([{
       you: false,
       text: 'Hello, you are cute!'
@@ -36,21 +52,13 @@ export default Ember.Component.extend({
     ], () => {
       this.get('bot').sortReplies();
     });
-
-    window.theBot = this.get('bot');
-
-    setTimeout(() => {
-      if (!this.get('isDestroyed')) {
-        this.set('canPeak', true);
-      }
-    }, this.get('delayRender'));
   }.on('init'),
 
   tick: function () {
     window.clearTimeout(this.currentTimeout);
 
     if (this.get('peakingMode')) {
-      if (this.get('canPeak')) {
+      if (this.get('canPeek')) {
         if (this.$().hasClass('hidden-1')) {
           this.$().removeClass('hidden-1').addClass('hidden-2');
         } else {
@@ -86,7 +94,7 @@ export default Ember.Component.extend({
 
       Ember.run.later(() => {
         this.$('.dialogue').scrollTop(1000000000);
-      }, 100)
+      }, 100);
     }
   }
 });

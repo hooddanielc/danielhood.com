@@ -1,4 +1,4 @@
-if canPeak
+if canPeek
   header{ action 'open' }
     h4 Adult Cat Finder
 

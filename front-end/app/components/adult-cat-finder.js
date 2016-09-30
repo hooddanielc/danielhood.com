@@ -5,11 +5,39 @@ export default Ember.Component.extend({
   name: 'pink',
   peakingMode: true,
   canPeak: false,
-  delayRender: 15000,
+  delayRender: 10000,
   switchAnimationInterval: 1500,
+  userInput: '',
+  messages: null,
 
   start: function () {
-    window.theThis = this;
+    this.set('messages', Ember.A([{
+      you: false,
+      text: 'Hello, you are cute!'
+    }]));
+
+    this.set('bot', new RiveScript());
+
+    this.get('bot').loadFile([
+      "adult-cat/about-aiden.rive",
+      "adult-cat/begin.rive",
+      "adult-cat/data-names.rive",
+      "adult-cat/emoji-categories.rive",
+      "adult-cat/emoji-sub.rive",
+      "adult-cat/emoji.rive",
+      "adult-cat/sarcasm.rive",
+      "adult-cat/std-arrays.rive",
+      "adult-cat/std-chat.rive",
+      "adult-cat/std-learn.rive",
+      "adult-cat/std-reductions.rive",
+      "adult-cat/std-salutations.rive",
+      "adult-cat/std-star.rive",
+      "adult-cat/std-substitutions.rive"
+    ], () => {
+      this.get('bot').sortReplies();
+    });
+
+    window.theBot = this.get('bot');
 
     setTimeout(() => {
       if (!this.get('isDestroyed')) {
@@ -41,6 +69,24 @@ export default Ember.Component.extend({
   actions: {
     open: function () {
       this.toggleProperty('peakingMode');
+    },
+
+    submit: function () {
+      this.get('messages').addObject(Ember.Object.create({
+        you: true,
+        text: this.get('userInput')
+      }));
+
+      this.get('messages').addObject(Ember.Object.create({
+        you: false,
+        text: this.get('bot').reply('soandso', this.get('userInput'))
+      }));
+
+      this.set('userInput', '');
+
+      Ember.run.later(() => {
+        this.$('.dialogue').scrollTop(1000000000);
+      }, 100)
     }
   }
 });

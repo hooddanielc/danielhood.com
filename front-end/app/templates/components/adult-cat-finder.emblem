@@ -7,6 +7,10 @@ if canPeak
   .profile-pic
     img src='/images/{{name}}.gif'
   .dialogue
-    .message-kitty Hey you are cute!
-  .input
-    input type='text'
+    each messages as |message|
+      if message.you
+        .message you : > {{message.text}}
+      else
+        .message Miss Kitters : > {{message.text}}
+  form.input{action 'submit' on='submit'} action="#"
+    = input placeholder='Talk to Miss Kitters' value=userInput type='text'

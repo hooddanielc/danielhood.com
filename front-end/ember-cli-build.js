@@ -11,6 +11,7 @@ module.exports = function(defaults) {
 
   app.import('bower_components/skeleton/css/normalize.css');
   app.import('bower_components/skeleton/css/skeleton.css');
+  app.import('vendor/rivescript.js');
 
   return app.toTree();
 };

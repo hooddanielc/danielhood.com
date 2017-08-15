@@ -28,25 +28,29 @@ article
 
   .hang-left.hang-break
     #home-good-to-know
-      p.text-bold You can see my personal work on:
+      p.text-bold Most of my personal work is publicly available. Mostly github repos.
 
       ul
         li
-          p
-            a href='http://www.havenofcode.com' Haven of Code
+          a href='http://www.havenofcode.com' Haven of Code
         li
-          p
-            a href='http://www.github.com/hooddanielc' My Github
+          a href='http://www.github.com/hooddanielc' My Github
+        li
+          a href='https://github.com/hooddanielc/phone' Trying To Build Open Source Phone
+        li
+          a href='https://github.com/hooddanielc/new-havenofcode' Building a high level c++ web server framework on top of NginX
+        li
+          a href='https://github.com/hooddanielc/dream-station' Some Automation For Creating Trippy Images Using Machine learning
+        li
+          a href='https://github.com/hooddanielc/danielhood.com' Github For This Website
 
       p.text-bold I also have two Android apps in Google Play:
 
       ul
+        li Muscl Memory, a game for fast-twitch players
         li
-          p Muscl Memory, a game for fast-twitch players
-        li
-          p
-            ' Syntax-Highlighted Code Editor, a mobile text
-            ' editor for programmers
+          ' Syntax-Highlighted Code Editor, a mobile text
+          ' editor for programmers
 
   p
     ' Since then, I have been working in the Seattle area keeping the

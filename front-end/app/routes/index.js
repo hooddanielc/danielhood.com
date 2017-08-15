@@ -5,20 +5,26 @@ export default Ember.Route.extend({
     return {
       languages: [
         "ActionScript",
-        "Bash",
-        "C++",
+        "C++14",
+        "C++11",
+        "C99",
         "C",
         "CSS 2/3",
+        "CSS Modules",
         "Java",
         "JavaScript",
+        "JSX",
         "Objective-C",
         "PHP",
         "Python",
         "Swift",
         "GLSL",
-        "Ruby"
+        "Ruby",
+        "Bash",
+        "Batch"
       ],
       frontBuzzWords: [
+        "React",
         "AngularJS",
         "Backbone",
         "EmberJS",
@@ -32,6 +38,9 @@ export default Ember.Route.extend({
         "Raspberry Pi"
       ],
       backendBuzzWords: [
+        "AWS",
+        "Nginx",
+        "Express",
         "Apache",
         "Kerberos",
         "MongoDB",
@@ -44,6 +53,10 @@ export default Ember.Route.extend({
         "Docker"
       ],
       toolsBuzzWords: [
+        "Bison",
+        "crosstool-NG",
+        "openembedded",
+        "Yocto",
         "Babel",
         "WebPack",
         "Eclipse",
@@ -72,8 +85,23 @@ export default Ember.Route.extend({
       ],
       experiences: [
         {
-          company: "EXPEDIA",
-          state: "WA",
+          company: "Sinclair Broadcast Group",
+          state: "wa",
+          city: "Seattle",
+          title: "Front-End Engineer (Full Time)",
+          startDate: "10/16",
+          endDate: "+",
+          gained: [
+            "Maintained consumer facing websites for 100's of newstations all using the same components",
+            "Reimplemented old build front end build system using new tools and frameworks such as Webpack, and React",
+            "Continuously building upon current automation for better code test coverage and testability",
+            "Providing support for new tools and development leading to new processes while maintaining core processes",
+            "Ported all java automation to nodes so front end developers can contribute"
+          ]
+        },
+        {
+          company: "Expedia",
+          state: "wa",
           city: "Bellevue",
           title: "Front-End Engineer (Contractor)",
           startDate: "7/16",
@@ -86,8 +114,8 @@ export default Ember.Route.extend({
           ]
         },
         {
-          company: "GETTY IMAGES",
-          state: "WA",
+          company: "Getty Images",
+          state: "wa",
           city: "Seattle",
           title: "Front-End Engineer (Contractor)",
           startDate: "2/16",
@@ -99,8 +127,8 @@ export default Ember.Route.extend({
           ]
         },
         {
-          company: "ZOOPPA",
-          state: "WA",
+          company: "Zooppa",
+          state: "wa",
           city: "Seattle",
           title: "Front-End Engineer (Contractor)",
           startDate: "7/15",
@@ -121,8 +149,8 @@ export default Ember.Route.extend({
           ]
         },
         {
-          company: "APPLE",
-          state: "CA",
+          company: "Apple",
+          state: "ca",
           city: "Cupertino",
           title: "Front-End Engineer (Contractor)",
           startDate: "4/14",
@@ -136,8 +164,8 @@ export default Ember.Route.extend({
           ]
         },
         {
-          company: "ROOSTER FISH LABS",
-          state: "CA",
+          company: "Rooster Fish Labs",
+          state: "ca",
           city: "Los Angeles",
           title: "Front-End Engineer (Contractor)",
           startDate: "8/13",
@@ -150,8 +178,8 @@ export default Ember.Route.extend({
           ]
         },
         {
-          company: "WELLS FARGO",
-          state: "CA",
+          company: "Wells Fargo",
+          state: "ca",
           city: "San Francisco",
           title: "Front-End Engineer (Contractor)",
           startDate: "3/13",
@@ -163,8 +191,8 @@ export default Ember.Route.extend({
           ]
         },
         {
-          company: "CREATIVE CIRCLE",
-          state: "CA",
+          company: "Creative Circle",
+          state: "ca",
           city: "San Francisco",
           title: "Front-End Engineer (Contractor)",
           startDate: "10/12",
@@ -176,8 +204,8 @@ export default Ember.Route.extend({
           ]
         },
         {
-          company: "TAGGED",
-          state: "CA",
+          company: "Tagged",
+          state: "ca",
           city: "San Francisco",
           title: "Software Engineering Intern / Front-End Engineer (Contractor)",
           startDate: "1/12",
@@ -192,15 +220,15 @@ export default Ember.Route.extend({
       ],
       edumacations: [
         {
-          school: "COLLEGE Of WESTERN IDAHO",
-          state: "ID",
+          school: "College of Western Idaho",
+          state: "id",
           city: "Boise",
           startDate: "2008",
           endDate: "2009",
           description: "Computer Science and Information Systems"
         },
         {
-          school: "SOUTH LAKE TAHOE COMMUNITY COLLEGE",
+          school: "South Lake Tahoe Community College",
           state: "CA",
           city: "South Lake Tahoe",
           startDate: "2010",

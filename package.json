@@ -23,6 +23,7 @@
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.2",
     "css-loader": "^1.0.0",
+    "file-loader": "^2.0.0",
     "html-webpack-plugin": "^3.2.0",
     "json-loader": "^0.5.7",
     "react-dom": "^16.5.2",
@@ -32,7 +33,10 @@
     "webpack-dev-server": "^3.1.9"
   },
   "dependencies": {
+    "@material-ui/core": "^3.1.1",
+    "@material-ui/icons": "^3.0.1",
     "prop-types": "^15.6.2",
-    "react": "^16.5.2"
+    "react": "^16.5.2",
+    "typeface-roboto": "0.0.54"
   }
 }

@@ -1,0 +1,144 @@
+@import 'adult-cat-finder'
+
+$color-background: white
+$color-text: black
+$color-text-light: #666666
+$hang-break: 750px
+$paragraph-spacing: 2rem
+$single-row-break: 533px
+
+a
+  text-decoration: none
+
+html
+  font-size: 50%
+
+body
+  padding: 0 2rem
+  margin: 0px auto
+  max-width: 900px
+  background-color: #ffffff
+
+.page-container
+  padding: 0 1.5rem
+
+.main-header
+  margin: 25px 0
+
+#header
+  width: 100%
+  padding: 1rem
+  border-bottom: 1px solid $color-text-light
+
+.navbar-list
+  list-style: none
+  display: inline-block
+  margin: 0
+  .navbar-item
+    position: relative
+    float: left
+    margin: 0
+    a
+      line-height: 6.0rem
+      padding: 0 1.5rem
+      color: $color-text
+    a:hover
+      color: #1EAEDB
+
+.text-center
+  text-align: center
+
+.text-left
+  text-align: left
+
+.text-right
+  text-align: right
+
+.text-bold
+  font-weight: bold
+
+/* HOME-PAGE
+.home-header-title
+  margin: 0 1rem
+
+.home-header-sub-title
+  margin: 0 1rem
+
+.home-header-sub-bullets
+  margin: 0
+
+.hang-right
+  float: right
+  width: 50%
+  padding-left: 1rem
+  margin-bottom: $paragraph-spacing
+
+.hang-left
+  float: left
+  width: 50%
+  padding-right: 1rem
+  margin-bottom: $paragraph-spacing
+
+@media screen and (min-width: $hang-break)
+  .hang-break
+    float: none
+    width: 50%
+  .hang-break.hang-left div
+    margin-right: 1rem
+  .hang-break.hang-right div
+    margin-left: 1rem
+
+.article-passionate
+  padding: 1rem
+
+.article-passionate p
+  margin-bottom: $paragraph-spacing
+
+#home-good-to-know
+  padding: 1rem
+  border: 1px solid $color-text-light
+
+#home-good-to-know p
+  margin: 0
+
+#home-good-to-know ul
+  margin-left: 2rem
+
+#buzz-word-grid
+  clear: both
+  width: 100%
+  margin-bottom: $paragraph-spacing
+  padding-bottom: $paragraph-spacing / 2
+  border-bottom: 1px solid $color-text-light
+
+#buzz-word-grid p
+  margin-bottom: $paragraph-spacing / 4
+
+#buzz-word-grid .buzz-word-row-title
+  font-weight: bold
+  border-bottom: 1px solid $color-text-light
+  margin-bottom: $paragraph-spacing / 2
+
+#buzz-word-grid .four.columns p:nth-child(even)
+  float: left
+  width: 50%
+
+@media screen and (max-width: $single-row-break)
+  #buzz-word-grid .columns p:nth-child(even)
+    float: left
+    width: 50%
+
+.experience-item
+  margin-top: $paragraph-spacing * 2
+  .date-range
+    float: right
+    font-weight: bold
+  .where
+    margin-bottom: 0px
+    font-weight: bold
+  .title
+    font-weight: bold
+    margin-bottom: $paragraph-spacing / 2
+  .list-exp
+    li
+      margin-bottom: 0

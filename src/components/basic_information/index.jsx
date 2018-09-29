@@ -6,20 +6,20 @@ export default class extends React.Component {
   render() {
     return (
       <div className={s.container}>
-        <Typography variant="subheading">Basic Information</Typography>
+        <Typography variant="headline">Basic Information</Typography>
         <div className={s.labels}>
-          <Typography>Address:</Typography>
-          <Typography>Date of Birth:</Typography>
-          <Typography>Place of Birth:</Typography>
-          <Typography>Language:</Typography>
-          <Typography>Gender:</Typography>
+          <Typography variant="subheading">Address:</Typography>
+          <Typography variant="subheading">Date of Birth:</Typography>
+          <Typography variant="subheading">Place of Birth:</Typography>
+          <Typography variant="subheading">Language:</Typography>
+          <Typography variant="subheading">Gender:</Typography>
         </div>
         <div className={s.info}>
-          <Typography>****</Typography>
-          <Typography>****</Typography>
-          <Typography>****</Typography>
-          <Typography>****</Typography>
-          <Typography>****</Typography>
+          <Typography variant="subheading">****</Typography>
+          <Typography variant="subheading">****</Typography>
+          <Typography variant="subheading">****</Typography>
+          <Typography variant="subheading">****</Typography>
+          <Typography variant="subheading">****</Typography>
         </div>
       </div>
     );

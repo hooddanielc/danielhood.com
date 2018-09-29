@@ -1,5 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Resume from './components/resume';
+import App from './components/app';
 
-ReactDOM.render(<Resume />, document.getElementById("index"));
+ReactDOM.render(<App />, document.getElementById("index"));

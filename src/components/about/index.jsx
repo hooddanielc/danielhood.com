@@ -2,16 +2,15 @@ import React from 'react';
 import s from './style.scss';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
-
+import data from '../../data';
 export default class extends React.Component {
   render() {
     return (
       <div className={s.container}>
         <Typography variant="headline">About</Typography>
         <Typography variant="subheading">
-          I'm a passionate software developer who loves to program.
+          {data.short_about_me}
         </Typography>
-        <Divider/>
       </div>
     );
   }

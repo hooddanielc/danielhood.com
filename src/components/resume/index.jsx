@@ -12,6 +12,7 @@ import About from '../about';
 import WorkExperience from '../work_experience';
 import Education from '../education';
 import Skills from '../skills';
+import s from './style.scss'
 
 const styles = theme => ({
   container: {
@@ -36,29 +37,38 @@ function CSSGrid(props) {
   const { classes } = props;
 
   return (
-    <div>
-      <div>
-        <ProfileHero/>
-        <Grid container spacing={24}>
-          <Grid item xs={6}>
-            <About/>
+    <div className={s.wrapper}>
+      <div className={s.page}>
+        <div className={s.profile_wrapper}>
+          <ProfileHero/>
+          <Grid container spacing={24}>
+            <Grid item xs={6}>
+              <About/>
+            </Grid>
+            <Grid item xs={6}>
+              <BasicInformation/>
+            </Grid>
           </Grid>
-          <Grid item xs={6}>
-            <BasicInformation/>
-          </Grid>
-        </Grid>
+          <Divider/>
+        </div>
+        <div>
+          <Skills/>
+        </div>
       </div>
+      <Divider/>
       <div>
-        <Skills/>
-      </div>
-      <div>
+        <Typography align="center" variant="headline" className={s.name} color="inherit">
+          Work Experience
+        </Typography>
         <WorkExperience/>
       </div>
+      <Divider/>
       <div>
+        <Typography align="center" variant="headline" className={s.name} color="inherit">
+          Education
+        </Typography>
         <Education/>
       </div>
-      <ResumeHeader {...props}/>
-      <Cover {...props}/>
     </div>
   );
 }

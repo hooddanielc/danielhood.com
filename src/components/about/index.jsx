@@ -7,7 +7,6 @@ export default class extends React.Component {
   render() {
     return (
       <div className={s.container}>
-        <Typography variant="headline">About</Typography>
         <Typography variant="subheading">
           {data.short_about_me}
         </Typography>

@@ -17,8 +17,8 @@ export default class ResumeHeader extends React.Component {
     } = obj;
     return (
       <li>
-        <Typography variant="subheading">{company}, {city}, {state}</Typography>
-        <Typography>{startDate}/{endDate}</Typography>
+        <Typography variant="h5"><b>{company}, {city}, {state}</b></Typography>
+        <Typography variant="h6"><b>{startDate}/{endDate}</b></Typography>
         <ul>
           {gained.map((str) => (
             <li>

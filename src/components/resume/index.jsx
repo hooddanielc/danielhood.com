@@ -57,7 +57,7 @@ function CSSGrid(props) {
       </div>
       <Divider/>
       <div>
-        <Typography align="center" variant="headline" className={s.name} color="inherit">
+        <Typography variant="h3" display="block" align="center" className={s.name} color="inherit">
           Work Experience
         </Typography>
         <WorkExperience/>

@@ -4,6 +4,14 @@ module.exports = {
   "short_about_me": "I'm a passionate software developer who loves to program.",
   "backend_buzz_words": [
     "AWS",
+    "ECS",
+    "EKS",
+    "Terraform",
+    "Gitlab Pipelines",
+    "Kubernetes",
+    "Typescript",
+    "Kafka",
+    "New Relic",
     "Nginx",
     "Express",
     "Apache",
@@ -48,11 +56,14 @@ module.exports = {
       "company": "Sinclair Broadcast Group",
       "endDate": "+",
       "gained": [
-        "Maintained consumer facing websites for 100's of newstations all using the same components",
+        "Started working on consumer facing websites for 100's of newstations all using the same components",
         "Reimplemented old build front end build system using new tools and frameworks such as Webpack, and React",
         "Continuously building upon current automation for better code test coverage and testability",
         "Providing support for new tools and development leading to new processes while maintaining core processes",
-        "Ported all java automation to nodes so front end developers can contribute"
+        "Ported all java automation to nodejs so front end developers can contribute",
+        "Converted many bamboo pipelines to gitlab pipelines that use terraform",
+        "Maintain backend services using ECS, EKS, and Google Cloud",
+        "Maintain event driven backend apps using Kafka"
       ],
       "startDate": "10/16",
       "state": "wa",

@@ -1,9 +1,9 @@
-const HtmlWebPackPlugin = require("html-webpack-plugin");
+// const HtmlWebPackPlugin = require("html-webpack-plugin");
 
-const htmlWebpackPlugin = new HtmlWebPackPlugin({
-  template: "./src/index.html",
-  filename: "./index.html"
-});
+// const htmlWebpackPlugin = new HtmlWebPackPlugin({
+//   template: "./src/index.html",
+//   filename: "./index.html"
+// });
 
 module.exports = {
   module: {
@@ -32,27 +32,36 @@ module.exports = {
             }
           },
           {
-            loader: 'resolve-url-loader',
-          },
-          {
             loader: 'sass-loader'
           }
         ]
       },
+      // {
+      //   test: /\.json$/,
+      //   loader: 'json-loader'
+      // },
+      // {
+      //   test: /\.(ttf|eot|woff|woff2)$/,
+      //   loader: "file-loader",
+      // },
       {
-        test: /\.json$/,
-        loader: 'json-loader'
+        test: /\.(json)$/,
+        type: 'json'
       },
       {
-        test: /\.(ttf|eot|woff|woff2)$/,
-        use: {
-          loader: "file-loader"
+        test: /\.(ttf|eot|woff|woff2|jpeg|png|gif)$/,
+        type: 'asset/resource'
+      },
+      {
+        test: /.html$/,
+        type: 'asset/resource',
+        generator: {
+          filename: 'index.html'
         }
       }
     ]
   },
   resolve: {
     extensions: ['.js', '.jsx', '.json']
-  },
-  plugins: [htmlWebpackPlugin]
+  }
 };

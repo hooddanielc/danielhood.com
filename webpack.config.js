@@ -1,67 +1,37 @@
-// const HtmlWebPackPlugin = require("html-webpack-plugin");
-
-// const htmlWebpackPlugin = new HtmlWebPackPlugin({
-//   template: "./src/index.html",
-//   filename: "./index.html"
-// });
+const path = require('path');
 
 module.exports = {
+  entry: {
+    homepage: './.webpack/index.js',
+  },
+  mode: 'development',
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        use: {
-          loader: "babel-loader"
-        }
-      },
-      {
-        test: /\.scss$/,
+        test: /\.js$/,
+        exclude: /(node_modules|\.webpack)/,
         use: [
           {
-            loader: "style-loader"
-          },
-          {
-            loader: "css-loader",
+            loader: 'babel-loader',
             options: {
-              modules: true,
-              importLoaders: 1,
-              localIdentName: "[name]_[local]_[hash:base64]",
-              sourceMap: true,
-              minimize: true
-            }
+              presets: [
+                ['@babel/preset-env', {
+                  useBuiltIns: 'usage',
+                  corejs: '3.18.3',
+                }],
+                '@babel/preset-react',
+              ],
+              plugins: [
+                "@emotion/babel-plugin",
+              ],
+            },
           },
-          {
-            loader: 'sass-loader'
-          }
-        ]
+        ],
       },
-      // {
-      //   test: /\.json$/,
-      //   loader: 'json-loader'
-      // },
-      // {
-      //   test: /\.(ttf|eot|woff|woff2)$/,
-      //   loader: "file-loader",
-      // },
-      {
-        test: /\.(json)$/,
-        type: 'json'
-      },
-      {
-        test: /\.(ttf|eot|woff|woff2|jpeg|png|gif)$/,
-        type: 'asset/resource'
-      },
-      {
-        test: /.html$/,
-        type: 'asset/resource',
-        generator: {
-          filename: 'index.html'
-        }
-      }
-    ]
+    ],
   },
-  resolve: {
-    extensions: ['.js', '.jsx', '.json']
-  }
+  output: {
+    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+  },
 };

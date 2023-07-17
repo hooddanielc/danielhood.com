@@ -122,12 +122,11 @@ export class Homepage extends React.Component<Record<string, unknown>, IState> {
       return (
         <Box key={i}>
           <Typography variant="h5"><b>{company}, {city}, {state}</b></Typography>
-          <Typography variant="h6"><b>{startDate} to {endDate}</b></Typography>
+          <Typography variant="h6"><b>{startDate} to {endDate}, {title}</b></Typography>
           <ul>
             {gained.map((str) => (
               <li>
                 <Typography>{str}</Typography>
-                <Typography>{title}</Typography>
               </li>
             ))}
           </ul>

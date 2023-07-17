@@ -4,6 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "tsc --project $PWD",
+    "bundle-web": "webpack",
+    "clean": "rm -rf .out_typescript && rm -rf .out_webpack",
+    "server": "static .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,6 +25,7 @@
     "@emotion/styled": "^11.8.1",
     "@fontsource/roboto": "^4.5.3",
     "@mui/material": "^5.5.2",
+    "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },
   "devDependencies": {

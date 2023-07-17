@@ -2,14 +2,14 @@ const path = require('path');
 
 module.exports = {
   entry: {
-    homepage: './.webpack/index.js',
+    homepage: './.out_typescript/index.js',
   },
   mode: 'development',
   module: {
     rules: [
       {
         test: /\.js$/,
-        exclude: /(node_modules|\.webpack)/,
+        exclude: /(node_modules|\.out_typescript)/,
         use: [
           {
             loader: 'babel-loader',
@@ -32,6 +32,6 @@ module.exports = {
   },
   output: {
     filename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, '.out_webpack'),
   },
 };

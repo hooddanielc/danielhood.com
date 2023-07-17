@@ -1,3 +1,4 @@
+.out_webpack
+.out_typescript
 .vagrant
 node_modules
-dist

@@ -66,7 +66,7 @@ export class Homepage extends React.Component<Record<string, unknown>, IState> {
           flexDirection="row"
         >
           {chipValues.map((str, i) => (
-            <Box margin={1} key={i}>
+            <Box margin={1} key={`mr-ref-ok-${i}`}>
               <Chip label={str} />
             </Box>
           ))}

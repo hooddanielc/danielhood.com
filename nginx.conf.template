@@ -1,0 +1,24 @@
+events {
+  worker_connections 1024;
+}
+
+http {
+  include mime.types;
+  sendfile on;
+
+  server {
+    listen 0.0.0.0:80;
+    listen 0.0.0.0:3000;
+    listen [::]:3000;
+    root /app/static;
+    try_files $uri /index.html;
+
+    ##
+    # example using environment variables
+    #
+    # location /api {
+    #     proxy_set_header Host $host:$server_port;
+    #     proxy_pass ${API_DOMAIN}/api;
+    # }
+  }
+}

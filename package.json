@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc --project $PWD",
-    "bundle-web": "webpack",
+    "build": "npm run build:typescript && npm run build:webpack",
+    "build:typescript": "tsc --project $PWD",
+    "build:webpack": "webpack -c webpack.config.js --mode production",
     "clean": "rm -rf .out_typescript && rm -rf .out_webpack",
     "server": "static .",
     "test": "echo \"Error: no test specified\" && exit 1"
